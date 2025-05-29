@@ -8,6 +8,7 @@ import Testimonials from '../app/components/Testimonials';
 import Footer from '../app/components/Footer';
 import FeaturesSection from "./components/Features";
 import CallToActionSection from "./components/CTA";
+import Navbar from "./components/navbar";
 
 export default function Home() {
   return (
@@ -17,10 +18,11 @@ export default function Home() {
         <meta name="description" content="Connect with professional consultants on-demand" />
       </Head>
       <main>
+        <Navbar />
         <Hero />
         <FeaturesSection/>
         <HowItWorks />
-        <Categories />
+        {/* <Categories /> */}
         <Testimonials />
         <CallToActionSection/>
       </main>
