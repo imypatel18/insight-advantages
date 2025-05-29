@@ -27,7 +27,7 @@ export default function HowItWorksSection() {
           {steps.map((step, idx) => (
             <div key={idx} className="bg-white rounded-lg shadow p-6 flex-1">
               <div className="text-2xl font-bold text-blue-600 mb-2">{idx + 1}</div>
-              <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+              <h3 className="text-xl text-black font-semibold mb-2">{step.title}</h3>
               <p className="text-blue-700">{step.description}</p>
             </div>
           ))}

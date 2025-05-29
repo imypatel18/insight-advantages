@@ -36,7 +36,7 @@ export default function FeaturesSection() {
           {features.map((f, i) => (
             <div key={i} className="bg-blue-50 rounded-lg p-6 shadow hover:shadow-lg transition">
               <div className="text-4xl mb-4">{f.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
+              <h3 className="text-xl text-black font-semibold mb-2">{f.title}</h3>
               <p className="text-blue-700">{f.description}</p>
             </div>
           ))}
