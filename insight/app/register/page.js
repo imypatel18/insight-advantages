@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import Navbar from '../components/navbar';
 
 export default function RegisterPage() {
   const [values, setValues] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const router = useRouter();
 
   const handleChange = (field) => (e) => {
     setValues({ ...values, [field]: e.target.value });
@@ -14,6 +16,7 @@ export default function RegisterPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    router.push('/account');
   };
 
   return (
