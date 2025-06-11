@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.4",
+<<<<<<< HEAD
     "@mui/icons-material": "^5.15.16",
     "@mui/material": "^5.15.16",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -27,13 +28,26 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.3.1"
+=======
+    "@heroicons/react": "^2.2.0",
+    "@mui/icons-material": "^5.15.16",
+    "@mui/material": "^5.15.16",
+    "lucide-react": "^0.514.0",
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+>>>>>>> 5aeaf9522d7d7338f8a5e1bf1dd500065ce0c99b
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+<<<<<<< HEAD
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.4"
+=======
+    "tailwindcss": "^4"
+>>>>>>> 5aeaf9522d7d7338f8a5e1bf1dd500065ce0c99b
   }
 }
