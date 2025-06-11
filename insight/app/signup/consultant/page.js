@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { Box, Container, Paper } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import Navbar from '../../components/navbar';
 export default function ConsultantProfilePage() {
   const [form, setForm] = useState({
@@ -25,6 +27,7 @@ export default function ConsultantProfilePage() {
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
   // Handle input change
   function handleChange(e) {
@@ -75,15 +78,16 @@ export default function ConsultantProfilePage() {
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
       setSubmitted(true);
-      // Submit the form data to your backend here
+      router.push('/');
     }
   }
 
   return (
     <>
     <Navbar />
-    <div className="min-h-screen bg-blue-50 py-12 px-4">
-      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8">
+    <Box sx={{ bgcolor: 'grey.100', minHeight: '100vh', py: 4 }}>
+      <Container maxWidth="md">
+        <Paper sx={{ p: 4 }}>
         <h1 className="text-3xl font-bold mb-6 text-blue-900">Consultant Profile Registration</h1>
         {submitted ? (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
@@ -407,8 +411,9 @@ export default function ConsultantProfilePage() {
             Submit Profile
           </button>
         </form>
-      </div>
-    </div>
+        </Paper>
+      </Container>
+    </Box>
     </>
   );
 }

@@ -20,7 +20,7 @@ export default function TestimonialsSection() {
         <div className="flex flex-col md:flex-row gap-8 justify-center">
           {testimonials.map((t, i) => (
             <div key={i} className="bg-blue-50 rounded-lg p-6 shadow w-full md:w-1/3">
-              <p className="text-blue-700 italic mb-4">"{t.text}"</p>
+              <p className="text-blue-700 italic mb-4">&ldquo;{t.text}&rdquo;</p>
               <div className="font-semibold text-blue-900">{t.name}</div>
               <div className="text-blue-600 text-sm">{t.role}</div>
             </div>
