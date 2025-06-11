@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Link, Paper, TextField, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import Navbar from '../components/navbar';
 
@@ -16,8 +16,10 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <Container maxWidth="sm" sx={{ mt: 8 }}>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box sx={{ bgcolor: 'grey.100', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+        <Container maxWidth="sm">
+          <Paper elevation={3} sx={{ p: 4 }}>
+            <Box component="form" onSubmit={handleSubmit} noValidate>
           <Typography variant="h4" component="h1" gutterBottom>
             Sign in
           </Typography>
@@ -48,8 +50,10 @@ export default function LoginPage() {
               Sign up
             </Link>
           </Typography>
-        </Box>
-      </Container>
+                 </Box>
+          </Paper>
+        </Container>
+      </Box>
     </>
   );
 }

@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
-import NextLink from 'next/link';
+import { Box, Button, Container, Link, Paper, TextField, Typography } from '@mui/material';import NextLink from 'next/link';
 import Navbar from '../components/navbar';
 
 export default function RegisterPage() {
@@ -16,14 +15,16 @@ export default function RegisterPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    router.push('/account');
+    router.push('/signup/consultant');
   };
 
   return (
     <>
       <Navbar />
-      <Container maxWidth="sm" sx={{ mt: 8 }}>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+     <Box sx={{ bgcolor: 'grey.100', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+        <Container maxWidth="sm">
+          <Paper elevation={3} sx={{ p: 4 }}>
+            <Box component="form" onSubmit={handleSubmit} noValidate>
           <Typography variant="h4" component="h1" gutterBottom>
             Sign up
           </Typography>
@@ -70,8 +71,10 @@ export default function RegisterPage() {
               Sign in
             </Link>
           </Typography>
-        </Box>
-      </Container>
+             </Box>
+          </Paper>
+        </Container>
+      </Box>
     </>
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -13,10 +15,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "Online Consultant tool",
-  description: "Online Consultant tool",
-};
+// export const metadata = {
+//   title: "Online Consultant tool",
+//   description: "Online Consultant tool",
+// };
 
 const theme = createTheme();
 

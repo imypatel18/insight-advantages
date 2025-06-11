@@ -22,7 +22,6 @@ export default function Home() {
         <Hero />
         <FeaturesSection/>
         <HowItWorks />
-        {/* <Categories /> */}
         <Testimonials />
         <CallToActionSection/>
       </main>
