@@ -77,10 +77,10 @@ export default function ConsultantProfilePage() {
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
-      setSubmitted(true);
-      // Submit the form data to your backend here
-            router.push('/');
+      if (Object.keys(validationErrors).length === 0) {
+        setSubmitted(true);
+        // Submit the form data to your backend here
+        router.push('/consultant/home');
 
     }
   }
