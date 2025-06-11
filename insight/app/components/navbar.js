@@ -18,6 +18,7 @@ export default function Navbar() {
             <Link href="/signup/consultant" className="hover:text-blue-200 font-medium transition">Become a Consultant</Link>
             <Link href="/about" className="hover:text-blue-200 font-medium transition">About</Link>
             <Link href="/contact" className="hover:text-blue-200 font-medium transition">Contact</Link>
+            <Link href="/login" className="hover:text-blue-200 font-medium transition">Login</Link>
           </div>
           {/* Mobile Menu Button */}
           <div className="md:hidden">
