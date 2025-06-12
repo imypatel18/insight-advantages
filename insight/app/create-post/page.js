@@ -85,14 +85,14 @@ export default function CreatePostPage() {
     }
     await new Promise((resolve) => setTimeout(resolve, 1500))
     console.log("Project post created:", projectPost)
-    router.push("/consultant-dashboard")
+    router.push("/consultant/home")
   }
 
   return (
     <Box minHeight="100vh" bgcolor="#f9fafb">
       <Header />
       <Box maxWidth="lg" mx="auto" px={2} py={6}>
-        <Link href="/consultant-dashboard" passHref>
+        <Link href="/consultant/home" passHref>
           <Button startIcon={<ArrowLeft />} sx={{ mb: 3 }}>
             Back to Dashboard
           </Button>
