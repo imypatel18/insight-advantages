@@ -11,17 +11,21 @@ import {
   CheckCircle,
   Calendar,
   User,
-  Briefcase,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 
-export default function ProjectDetailSidebar({ project, isOpen, onClose, onSaveProject, isSaved }) {
+export default function ProjectDetailSidebar({ project, isOpen, onClose, onSaveProject, onAcceptProject, isSaved }) {
   if (!project) return null
 
   const handleSaveClick = () => {
     onSaveProject(project)
+  }
+
+  const handleAcceptClick = () => {
+    onAcceptProject(project)
+    onClose() // Close the sidebar after accepting
   }
 
   return (
@@ -60,44 +64,16 @@ export default function ProjectDetailSidebar({ project, isOpen, onClose, onSaveP
                     <span>{project.location}</span>
                   </div>
                 </div>
-
-                {/* Specialized Profile Notice */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
-                      <User className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-700">
-                        Specialized profiles can help you better highlight your expertise when submitting proposals to
-                        jobs like these.{" "}
-                        <a href="#" className="text-blue-600 hover:underline">
-                          Create a specialized profile.
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
               </div>
 
               {/* Action Buttons */}
               <div className="space-y-3">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
-                      <Briefcase className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">You'll need Connects to bid.</p>
-                      <p className="text-sm text-gray-600">They're like credits that show clients you're serious.</p>
-                      <a href="#" className="text-blue-600 hover:underline text-sm">
-                        Learn more
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">Buy Connects to apply</Button>
+                <Button
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-4"
+                  onClick={handleAcceptClick}
+                >
+                  Accept Request
+                </Button>
 
                 <Button
                   variant="outline"
@@ -116,12 +92,6 @@ export default function ProjectDetailSidebar({ project, isOpen, onClose, onSaveP
                   <Flag className="h-4 w-4 mr-2" />
                   Flag as inappropriate
                 </Button>
-              </div>
-
-              {/* Connect Requirements */}
-              <div className="text-sm text-gray-600">
-                <p>Required Connects to submit a proposal: 20</p>
-                <p>Available Connects: 0</p>
               </div>
 
               {/* Job Summary */}
