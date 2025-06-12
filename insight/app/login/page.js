@@ -9,9 +9,30 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      alert(`Welcome ${data.consultant.FirstName}`);
+      // TODO: redirect to dashboard
+    } else {
+      alert(data.message || 'Invalid email or password');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    alert('Something went wrong. Try again.');
+  }
+};
+
 
   return (
     <>

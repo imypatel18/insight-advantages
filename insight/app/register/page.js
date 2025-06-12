@@ -13,10 +13,28 @@ export default function RegisterPage() {
     setValues({ ...values, [field]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    router.push('/signup/consultant');
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+
+    if (res.ok) {
+      // Redirect to consultant sign-up or login
+      router.push('/signup/consultant');
+    } else {
+      alert('Registration failed. Try again.');
+    }
+  } catch (err) {
+    console.error('Registration error:', err);
+    alert('Error connecting to the server.');
+  }
+};
+
 
   return (
     <>
