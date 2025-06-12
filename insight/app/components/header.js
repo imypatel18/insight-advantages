@@ -36,7 +36,7 @@ export default function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
-                  <Link href="/active-projects" className="w-full cursor-pointer">
+                  <Link href="/active-project" className="w-full cursor-pointer">
                     Active Projects
                   </Link>
                 </DropdownMenuItem>
