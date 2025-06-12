@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import Navbar from "../components/navbar-client"
 import {
   Search,
   ChevronDown,
@@ -575,40 +576,43 @@ export default function HomePage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         {/* Navigation Header */}
-        <nav className="bg-white shadow-sm border-b">
+        <Navbar />
+        {/* <nav className="bg-white shadow-sm border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center space-x-8">
-                <button
+                <Button
                   onClick={() => setShowResults(false)}
                   className="text-2xl font-bold text-blue-600 hover:text-blue-700"
                 >
                   upwork
-                </button>
+                </Button>
                 <div className="hidden md:flex items-center space-x-6">
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     Find talent <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  </Button>
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     Find work <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  </Button>
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     Why Upwork <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  </Button>
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     What's new <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="text-gray-700 hover:text-blue-600">Enterprise</button>
-                  <button className="text-gray-700 hover:text-blue-600">Pricing</button>
+                  </Button>
+                  <Button className="text-gray-700 hover:text-blue-600">Enterprise</Button>
+                  <Button className="text-gray-700 hover:text-blue-600">Pricing</Button>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                <button className="text-gray-700 hover:text-blue-600">Log in</button>
+                <Button className="text-gray-700 hover:text-blue-600">Log in</Button>
                 <Button className="bg-green-600 hover:bg-green-700 text-white px-6">Sign up</Button>
               </div>
             </div>
           </div>
-        </nav>
+        </nav> */}
+        {/* <navbar /> */}
+
 
         {/* Profile Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -860,9 +864,9 @@ export default function HomePage() {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-bold text-gray-900">Contact {selectedConsultant.name}</h2>
-                  <button onClick={() => setShowContactModal(false)} className="text-gray-400 hover:text-gray-600">
+                  <Button onClick={() => setShowContactModal(false)} className="text-gray-400 hover:text-gray-600">
                     ✕
-                  </button>
+                  </Button>
                 </div>
                 <form onSubmit={handleContactSubmit} className="space-y-4">
                   <div>
@@ -891,7 +895,7 @@ export default function HomePage() {
                       Send Message
                     </Button>
                     <Button
-                      type="button"
+                      type="Button"
                       variant="outline"
                       onClick={() => setShowContactModal(false)}
                       className="flex-1"
@@ -912,9 +916,9 @@ export default function HomePage() {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-bold text-gray-900">Schedule Interview</h2>
-                  <button onClick={() => setShowScheduleModal(false)} className="text-gray-400 hover:text-gray-600">
+                  <Button onClick={() => setShowScheduleModal(false)} className="text-gray-400 hover:text-gray-600">
                     ✕
-                  </button>
+                  </Button>
                 </div>
                 <form onSubmit={handleScheduleSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
@@ -980,7 +984,7 @@ export default function HomePage() {
                       Schedule Interview
                     </Button>
                     <Button
-                      type="button"
+                      type="Button"
                       variant="outline"
                       onClick={() => setShowScheduleModal(false)}
                       className="flex-1"
@@ -1001,9 +1005,9 @@ export default function HomePage() {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-bold text-gray-900">Hire {selectedConsultant.name}</h2>
-                  <button onClick={() => setShowHireModal(false)} className="text-gray-400 hover:text-gray-600">
+                  <Button onClick={() => setShowHireModal(false)} className="text-gray-400 hover:text-gray-600">
                     ✕
-                  </button>
+                  </Button>
                 </div>
                 <form onSubmit={handleHireSubmit} className="space-y-4">
                   <div>
@@ -1087,7 +1091,7 @@ export default function HomePage() {
                     <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700">
                       Send Hire Request
                     </Button>
-                    <Button type="button" variant="outline" onClick={() => setShowHireModal(false)} className="flex-1">
+                    <Button type="Button" variant="outline" onClick={() => setShowHireModal(false)} className="flex-1">
                       Cancel
                     </Button>
                   </div>
@@ -1104,40 +1108,41 @@ export default function HomePage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         {/* Navigation Header */}
-        <nav className="bg-white shadow-sm border-b">
+        {/* <nav className="bg-white shadow-sm border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center space-x-8">
-                <button
+                <Button
                   onClick={() => setShowResults(false)}
                   className="text-2xl font-bold text-blue-600 hover:text-blue-700"
                 >
                   upwork
-                </button>
+                </Button>
                 <div className="hidden md:flex items-center space-x-6">
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     Find talent <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  </Button>
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     Find work <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  </Button>
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     Why Upwork <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="flex items-center text-gray-700 hover:text-blue-600">
+                  </Button>
+                  <Button className="flex items-center text-gray-700 hover:text-blue-600">
                     What's new <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  <button className="text-gray-700 hover:text-blue-600">Enterprise</button>
-                  <button className="text-gray-700 hover:text-blue-600">Pricing</button>
+                  </Button>
+                  <Button className="text-gray-700 hover:text-blue-600">Enterprise</Button>
+                  <Button className="text-gray-700 hover:text-blue-600">Pricing</Button>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                <button className="text-gray-700 hover:text-blue-600">Log in</button>
+                <Button className="text-gray-700 hover:text-blue-600">Log in</Button>
                 <Button className="bg-green-600 hover:bg-green-700 text-white px-6">Sign up</Button>
               </div>
             </div>
           </div>
-        </nav>
+        </nav> */}
+        <Navbar />
 
         {/* Search Results */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -1278,35 +1283,36 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Navigation Headerr */}
-      <nav className="bg-white shadow-sm border-b">
+      {/* <nav className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-8">
               <div className="text-2xl font-bold text-blue-600">Consultant Match </div>
               <div className="hidden md:flex items-center space-x-6">
-                <button className="flex items-center text-gray-700 hover:text-blue-600">
+                <Button className="flex items-center text-gray-700 hover:text-blue-600">
                   Find talent <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                <button className="flex items-center text-gray-700 hover:text-blue-600">
+                </Button>
+                <Button className="flex items-center text-gray-700 hover:text-blue-600">
                   Find work <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                <button className="flex items-center text-gray-700 hover:text-blue-600">
+                </Button>
+                <Button className="flex items-center text-gray-700 hover:text-blue-600">
                   Why Upwork <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                <button className="flex items-center text-gray-700 hover:text-blue-600">
+                </Button>
+                <Button className="flex items-center text-gray-700 hover:text-blue-600">
                   What's new <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                <button className="text-gray-700 hover:text-blue-600">Enterprise</button>
-                <button className="text-gray-700 hover:text-blue-600">Pricing</button>
+                </Button>
+                <Button className="text-gray-700 hover:text-blue-600">Enterprise</Button>
+                <Button className="text-gray-700 hover:text-blue-600">Pricing</Button>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <button className="text-gray-700 hover:text-blue-600">Log in</button>
+              <Button className="text-gray-700 hover:text-blue-600">Log in</Button>
               <Button className="bg-green-600 hover:bg-green-700 text-white px-6">Sign up</Button>
             </div>
           </div>
         </div>
-      </nav>
+      </nav> */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
@@ -1598,7 +1604,7 @@ export default function HomePage() {
 // "use client"
 
 // import { useState } from "react"
-// import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/Button"
 // import { Input } from "@/components/ui/input"
 // import { Card, CardContent } from "@/components/ui/card"
 // import { Badge } from "@/components/ui/badge"
@@ -1786,31 +1792,31 @@ export default function HomePage() {
 //           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 //             <div className="flex justify-between items-center h-16">
 //               <div className="flex items-center space-x-8">
-//                 <button
+//                 <Button
 //                   onClick={() => setShowResults(false)}
 //                   className="text-2xl font-bold text-blue-600 hover:text-blue-700"
 //                 >
 //                   upwork
-//                 </button>
+//                 </Button>
 //                 <div className="hidden md:flex items-center space-x-6">
-//                   <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                   <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                     Find talent <ChevronDown className="ml-1 h-4 w-4" />
-//                   </button>
-//                   <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                   </Button>
+//                   <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                     Find work <ChevronDown className="ml-1 h-4 w-4" />
-//                   </button>
-//                   <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                   </Button>
+//                   <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                     Why Upwork <ChevronDown className="ml-1 h-4 w-4" />
-//                   </button>
-//                   <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                   </Button>
+//                   <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                     What's new <ChevronDown className="ml-1 h-4 w-4" />
-//                   </button>
-//                   <button className="text-gray-700 hover:text-blue-600">Enterprise</button>
-//                   <button className="text-gray-700 hover:text-blue-600">Pricing</button>
+//                   </Button>
+//                   <Button className="text-gray-700 hover:text-blue-600">Enterprise</Button>
+//                   <Button className="text-gray-700 hover:text-blue-600">Pricing</Button>
 //                 </div>
 //               </div>
 //               <div className="flex items-center space-x-4">
-//                 <button className="text-gray-700 hover:text-blue-600">Log in</button>
+//                 <Button className="text-gray-700 hover:text-blue-600">Log in</Button>
 //                 <Button className="bg-green-600 hover:bg-green-700 text-white px-6">Sign up</Button>
 //               </div>
 //             </div>
@@ -1952,24 +1958,24 @@ export default function HomePage() {
 //             <div className="flex items-center space-x-8">
 //               <div className="text-2xl font-bold text-blue-600">upwork</div>
 //               <div className="hidden md:flex items-center space-x-6">
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   Find talent <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 </Button>
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   Find work <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 </Button>
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   Why Upwork <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 </Button>
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   What's new <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="text-gray-700 hover:text-blue-600">Enterprise</button>
-//                 <button className="text-gray-700 hover:text-blue-600">Pricing</button>
+//                 </Button>
+//                 <Button className="text-gray-700 hover:text-blue-600">Enterprise</Button>
+//                 <Button className="text-gray-700 hover:text-blue-600">Pricing</Button>
 //               </div>
 //             </div>
 //             <div className="flex items-center space-x-4">
-//               <button className="text-gray-700 hover:text-blue-600">Log in</button>
+//               <Button className="text-gray-700 hover:text-blue-600">Log in</Button>
 //               <Button className="bg-green-600 hover:bg-green-700 text-white px-6">Sign up</Button>
 //             </div>
 //           </div>
@@ -2265,7 +2271,7 @@ export default function HomePage() {
 
 // "use client"
 
-// import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/Button"
 // import { Input } from "@/components/ui/input"
 // import { Card, CardContent } from "@/components/ui/card"
 // import { Badge } from "@/components/ui/badge"
@@ -2282,24 +2288,24 @@ export default function HomePage() {
 //             <div className="flex items-center space-x-8">
 //               <div className="text-2xl font-bold text-blue-600">upwork</div>
 //               <div className="hidden md:flex items-center space-x-6">
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   Find talent <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 </Button>
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   Find work <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 </Button>
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   Why Upwork <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="flex items-center text-gray-700 hover:text-blue-600">
+//                 </Button>
+//                 <Button className="flex items-center text-gray-700 hover:text-blue-600">
 //                   What's new <ChevronDown className="ml-1 h-4 w-4" />
-//                 </button>
-//                 <button className="text-gray-700 hover:text-blue-600">Enterprise</button>
-//                 <button className="text-gray-700 hover:text-blue-600">Pricing</button>
+//                 </Button>
+//                 <Button className="text-gray-700 hover:text-blue-600">Enterprise</Button>
+//                 <Button className="text-gray-700 hover:text-blue-600">Pricing</Button>
 //               </div>
 //             </div>
 //             <div className="flex items-center space-x-4">
-//               <button className="text-gray-700 hover:text-blue-600">Log in</button>
+//               <Button className="text-gray-700 hover:text-blue-600">Log in</Button>
 //               <Button className="bg-green-600 hover:bg-green-700 text-white px-6">Sign up</Button>
 //             </div>
 //           </div>

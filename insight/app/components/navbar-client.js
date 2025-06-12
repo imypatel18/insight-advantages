@@ -1,15 +1,17 @@
-"use client"
-
-import { Search, Bell, HelpCircle, ChevronDown } from "lucide-react"
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Search, Bell, HelpCircle, ChevronDown, User, Settings } from "lucide-react"
+import ProfileDropdown from "./profile-dropdown"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import ProfileDropdown from "./profile-dropdown"
-import Link from "next/link"
 
-export default function Header() {
+export default function Navbar() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
-    <header className="border-b bg-white px-4 py-3">
+      <header className="border-b bg-white px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-2">
@@ -29,7 +31,7 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-blue-600">
                 <span>My Work</span>
                 <ChevronDown className="h-4 w-4" />
@@ -43,7 +45,7 @@ export default function Header() {
                 <DropdownMenuItem>Completed Work</DropdownMenuItem>
                 <DropdownMenuItem>Contracts</DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-blue-600">
@@ -68,7 +70,7 @@ export default function Header() {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input placeholder="Search for projects" className="w-80 pl-10" />
           </div>
-
+{/* 
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium">
               <span>Projects</span>
@@ -78,14 +80,8 @@ export default function Header() {
               <DropdownMenuItem>All Projects</DropdownMenuItem>
               <DropdownMenuItem>Active</DropdownMenuItem>
               <DropdownMenuItem>Completed</DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="/create-post" className="w-full cursor-pointer">
-                Create New Post
-                </Link>
-                </DropdownMenuItem>
-
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
 
           <Button variant="ghost" size="icon">
             <HelpCircle className="h-5 w-5" />
@@ -94,10 +90,16 @@ export default function Header() {
           <Button variant="ghost" size="icon">
             <Bell className="h-5 w-5" />
           </Button>
+          <Link href='/billing' variant="ghost" size="icon">
+            <Settings className="h-5 w-5" />
+          </Link>
+          <Button variant="ghost" size="icon">
+            <User className="h-5 w-5" />
+          </Button>
 
-          <ProfileDropdown />
+          {/* <ProfileDropdown /> */}
         </div>
       </div>
     </header>
-  )
+  );
 }
