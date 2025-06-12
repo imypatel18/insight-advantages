@@ -3,8 +3,9 @@
 import { Search, Bell, HelpCircle, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import ProfileDropdown from "./profile-dropdown"
+import Link from "next/link"
 
 export default function Header() {
   return (
@@ -12,12 +13,12 @@ export default function Header() {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-green-600">ConsultPro</div>
+            <div className="text-2xl font-bold text-blue-600">ConsultPro</div>
           </div>
 
           <nav className="hidden md:flex items-center space-x-6">
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-green-600">
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-blue-600">
                 <span>Find Projects</span>
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
@@ -29,19 +30,23 @@ export default function Header() {
             </DropdownMenu>
 
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-green-600">
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-blue-600">
                 <span>My Work</span>
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>Active Projects</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/active-projects" className="w-full cursor-pointer">
+                    Active Projects
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Completed Work</DropdownMenuItem>
                 <DropdownMenuItem>Contracts</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-green-600">
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-blue-600">
                 <span>Reports</span>
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
@@ -52,7 +57,7 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <a href="#" className="text-sm font-medium hover:text-green-600">
+            <a href="#" className="text-sm font-medium hover:text-blue-600">
               Messages
             </a>
           </nav>
@@ -84,10 +89,7 @@ export default function Header() {
             <Bell className="h-5 w-5" />
           </Button>
 
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="/placeholder.svg?height=32&width=32" />
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
+          <ProfileDropdown />
         </div>
       </div>
     </header>
