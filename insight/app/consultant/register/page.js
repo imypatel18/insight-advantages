@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ArrowLeft, Plus, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 // Simple Textarea component
 const Textarea = ({ className, ...props }) => {
@@ -20,9 +20,11 @@ const Textarea = ({ className, ...props }) => {
 
 export default function ConsultantRegistration() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
+    fullName: searchParams.get('fullName') || "",
+    email: searchParams.get('email') || "",
     phoneNumber: "",
     location: "",
     preferredWorkType: "",
@@ -31,7 +33,7 @@ export default function ConsultantRegistration() {
     specialization: "",
     yearsOfExperience: "",
     education: [{ degree: "", institution: "", year: "" }],
-    certificates: [""],
+    certificates: [{ name: "", file: null }],
     professionalExperience: [{ role: "", company: "", years: "" }],
     primarySkills: "",
     availableServices: "",
@@ -60,7 +62,14 @@ export default function ConsultantRegistration() {
   const handleArrayChange = (arrayName, index, value) => {
     setFormData((prev) => ({
       ...prev,
-      [arrayName]: prev[arrayName].map((item, i) => (i === index ? value : item)),
+      [arrayName]: prev[arrayName].map((item, i) => (i === index ? { ...item, name: value } : item)),
+    }))
+  }
+
+  const handleFileChange = (index, file) => {
+    setFormData((prev) => ({
+      ...prev,
+      certificates: prev.certificates.map((item, i) => (i === index ? { ...item, file } : item)),
     }))
   }
 
@@ -71,7 +80,7 @@ export default function ConsultantRegistration() {
     }))
   }
 
-  const addArrayItem = (arrayName, defaultValue = "") => {
+  const addArrayItem = (arrayName, defaultValue = { name: "", file: null }) => {
     setFormData((prev) => ({
       ...prev,
       [arrayName]: [...prev[arrayName], defaultValue],
@@ -89,7 +98,7 @@ export default function ConsultantRegistration() {
     e.preventDefault()
     console.log("Form submitted:", formData)
     // Here you would typically send the data to your backend
-    router.push("/profile")
+    router.push("/consultant/profile")
   }
 
   return (
@@ -209,7 +218,7 @@ export default function ConsultantRegistration() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => addArrayItem("languagesSpoken")}
+                  onClick={() => addArrayItem("languagesSpoken", "")}
                   className="mt-2"
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -291,13 +300,22 @@ export default function ConsultantRegistration() {
               <div>
                 <label className="block text-sm font-medium mb-2">Certificates & Licenses</label>
                 {formData.certificates.map((cert, index) => (
-                  <div key={index} className="flex gap-2 mb-2">
+                  <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
                     <Input
-                      value={cert}
+                      value={cert.name}
                       onChange={(e) => handleArrayChange("certificates", index, e.target.value)}
                       placeholder="Certificate name"
                       className="h-12"
                     />
+                    <div className="relative">
+                      <Input
+                        type="file"
+                        onChange={(e) => handleFileChange(index, e.target.files[0])}
+                        className="h-12 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                        accept=".pdf,.doc,.docx,.jpg,.png"
+                      />
+                      {cert.file && <span className="text-sm text-gray-500">{cert.file.name}</span>}
+                    </div>
                     {formData.certificates.length > 1 && (
                       <Button
                         type="button"
@@ -310,7 +328,12 @@ export default function ConsultantRegistration() {
                     )}
                   </div>
                 ))}
-                <Button type="button" variant="outline" onClick={() => addArrayItem("certificates")} className="mt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => addArrayItem("certificates", { name: "", file: null })}
+                  className="mt-2"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Certificate
                 </Button>

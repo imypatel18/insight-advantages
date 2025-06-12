@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { ArrowRight, PlayCircle } from 'lucide-react';
+import Link from 'next/link';
 
 const Hero = () => {
   return (
@@ -34,15 +35,15 @@ const Hero = () => {
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-            <button className="group bg-white text-[#3b5998] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center">
+            <Link href='/login' className="group bg-white text-[#3b5998] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center" >
+              Join as Client
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+            
+         <Link href='consultant/signup' className="group bg-white text-[#3b5998] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center">
               Join as Consultant
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </button>
-            
-            <button className="group border-2 border-white/50 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white/10 backdrop-blur-sm transition-all duration-300 flex items-center">
-              <PlayCircle className="mr-2 h-5 w-5" />
-              Watch Demo
-            </button>
+            </Link>
           </div>
           
           {/* Stats */}
