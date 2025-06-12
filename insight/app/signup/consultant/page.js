@@ -1,12 +1,13 @@
 'use client';
 import { useState } from 'react';
 import Navbar from '../../components/navbar';
-import { Box, Container, Paper } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { Box, Container, Paper, TextField, Typography } from '@mui/material';
+import { useRouter, useSearchParams } from 'next/navigation';
 export default function ConsultantProfilePage() {
+  const searchParams = useSearchParams();
   const [form, setForm] = useState({
-    fullName: '',
-    email: '',
+    fullName: searchParams.get('name') || '',
+    email: searchParams.get('email') || '',
     phone: '',
     location: '',
     workType: '',
@@ -76,10 +77,10 @@ export default function ConsultantProfilePage() {
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
-      setSubmitted(true);
-      // Submit the form data to your backend here
-            router.push('/');
+      if (Object.keys(validationErrors).length === 0) {
+        setSubmitted(true);
+        // Submit the form data to your backend here
+        router.push('/consultant/home');
 
     }
   }
@@ -99,29 +100,22 @@ export default function ConsultantProfilePage() {
         <form onSubmit={handleSubmit} noValidate>
           {/* Personal Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label className="block font-semibold mb-1 text-blue-700">Full Name *</label>
-              <input
-                className={`w-full border rounded px-3 py-2 bg-blue-100 ${errors.fullName ? 'border-red-500' : 'border-blue-200'}`}
-                name="fullName"
-                value={form.fullName}
-                onChange={handleChange}
-                required
-              />
-              {errors.fullName && <p className="text-red-600 text-sm">{errors.fullName}</p>}
-            </div>
-            <div>
-              <label className="block font-semibold mb-1 text-blue-700">Email *</label>
-              <input
-                type="email"
-                className={`w-full border rounded px-3 py-2 bg-blue-100 ${errors.email ? 'border-red-500' : 'border-blue-200'}`}
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-              />
-              {errors.email && <p className="text-red-600 text-sm">{errors.email}</p>}
-            </div>
+            <TextField
+              label="Full Name"
+              margin="normal"
+              fullWidth
+              size="small"
+              value={form.fullName}
+              disabled
+            />
+            <TextField
+              label="Email"
+              margin="normal"
+              fullWidth
+              size="small"
+              value={form.email}
+              disabled
+            />
             <div>
               <label className="block font-semibold mb-1 text-blue-700">Phone Number *</label>
               <input

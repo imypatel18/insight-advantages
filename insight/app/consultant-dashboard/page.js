@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -9,12 +10,15 @@ import PromotionalBanner from "../components/promotional-banner"
 import Sidebar from "../components/sidebar"
 import ProjectCard from "../components/project-card"
 import ProjectDetailSidebar from "../components/project-detail-sidebar"
-import { useState } from "react"
+
 
 const ConsultantDashboard = () => {
   const [selectedProject, setSelectedProject] = useState(null)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [savedProjects, setSavedProjects] = useState([])
+  const [searchQuery, setSearchQuery] = useState("")
+  // Add activeProjects state
+  const [activeProjects, setActiveProjects] = useState([])
 
   const sampleProjects = [
     {
@@ -59,7 +63,47 @@ const ConsultantDashboard = () => {
       location: "Germany",
       proposals: "15",
     },
+    {
+      id: 4,
+      title: "Marketing Strategy Consultant for E-commerce Brand",
+      postedTime: "3 hours ago",
+      budget: "$45-65/hr",
+      duration: "2-4 months",
+      experienceLevel: "Intermediate",
+      description:
+        "Looking for a marketing strategy consultant to help our e-commerce brand develop and execute a comprehensive digital marketing strategy. Experience with social media marketing, content strategy, and performance analytics required.",
+      skills: ["Marketing Strategy", "Digital Marketing", "E-commerce", "Social Media", "Analytics"],
+      clientRating: "4.6",
+      location: "United Kingdom",
+      proposals: "9",
+    },
+    {
+      id: 5,
+      title: "Operations Consultant for Healthcare Startup",
+      postedTime: "6 hours ago",
+      budget: "$55-75/hr",
+      duration: "4-6 months",
+      experienceLevel: "Expert",
+      description:
+        "Healthcare startup seeking an operations consultant to streamline processes, improve efficiency, and ensure regulatory compliance. Experience in healthcare operations and knowledge of regulatory requirements essential.",
+      skills: ["Operations Management", "Healthcare", "Process Improvement", "Regulatory Compliance", "Efficiency"],
+      clientRating: "4.9",
+      location: "Canada",
+      proposals: "6",
+    },
   ]
+
+  // Filter projects based on search query
+  const filteredProjects =
+    searchQuery.trim() === ""
+      ? sampleProjects
+      : sampleProjects.filter(
+          (project) =>
+            project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            project.skills.some((skill) => skill.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            project.location.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
 
   const handleProjectClick = (project) => {
     setSelectedProject(project)
@@ -75,10 +119,8 @@ const ConsultantDashboard = () => {
     setSavedProjects((prev) => {
       const isAlreadySaved = prev.some((p) => p.id === project.id)
       if (isAlreadySaved) {
-        // Remove from saved projects
         return prev.filter((p) => p.id !== project.id)
       } else {
-        // Add to saved projects
         return [...prev, project]
       }
     })
@@ -86,6 +128,29 @@ const ConsultantDashboard = () => {
 
   const isProjectSaved = (projectId) => {
     return savedProjects.some((p) => p.id === projectId)
+  }
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value)
+  }
+
+  const clearSearch = () => {
+    setSearchQuery("")
+  }
+
+  // Add handleAcceptProject function
+  const handleAcceptProject = (project) => {
+    setActiveProjects((prev) => {
+      // Check if project is already active
+      const isAlreadyActive = prev.some((p) => p.id === project.id)
+      if (!isAlreadyActive) {
+        return [...prev, { ...project, acceptedAt: new Date(), status: "active" }]
+      }
+      return prev
+    })
+
+    // Show success message (you can add a toast notification here)
+    console.log(`Project "${project.title}" accepted and added to active projects!`)
   }
 
   return (
@@ -101,12 +166,42 @@ const ConsultantDashboard = () => {
             {/* Search Bar */}
             <div className="relative mb-6">
               <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-              <Input placeholder="Search for projects" className="pl-10 h-12 text-base" />
+              <Input
+                placeholder="Search for projects"
+                className="pl-10 h-12 text-base"
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
+              {searchQuery && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+                >
+                  Clear
+                </button>
+              )}
             </div>
 
             {/* Projects Section */}
             <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">Projects you might like</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">
+                  {searchQuery ? `Search Results (${filteredProjects.length})` : "Projects you might like"}
+                </h2>
+                {searchQuery && (
+                  <Button variant="outline" size="sm" onClick={clearSearch}>
+                    Clear Search
+                  </Button>
+                )}
+              </div>
+
+              {searchQuery && (
+                <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-700">
+                    Showing {filteredProjects.length} projects matching "{searchQuery}"
+                  </p>
+                </div>
+              )}
 
               <Tabs defaultValue="best-matches" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 mb-6">
@@ -119,18 +214,36 @@ const ConsultantDashboard = () => {
 
                 <TabsContent value="best-matches">
                   <p className="text-gray-600 mb-6">
-                    Browse projects that match your experience and client preferences. Ordered by relevance.
+                    {searchQuery
+                      ? "Projects matching your search criteria."
+                      : "Browse projects that match your experience and client preferences. Ordered by relevance."}
                   </p>
                   <div className="space-y-4">
-                    {sampleProjects.map((project) => (
-                      <ProjectCard
-                        key={project.id}
-                        project={project}
-                        onProjectClick={handleProjectClick}
-                        onSaveProject={handleSaveProject}
-                        isSaved={isProjectSaved(project.id)}
-                      />
-                    ))}
+                    {filteredProjects.length > 0 ? (
+                      filteredProjects.map((project) => (
+                        <ProjectCard
+                          key={project.id}
+                          project={project}
+                          onProjectClick={handleProjectClick}
+                          onSaveProject={handleSaveProject}
+                          isSaved={isProjectSaved(project.id)}
+                        />
+                      ))
+                    ) : (
+                      <div className="text-center py-12">
+                        <p className="text-gray-500 mb-2">
+                          {searchQuery ? `No projects found for "${searchQuery}"` : "No projects available"}
+                        </p>
+                        {searchQuery && (
+                          <div className="space-y-2">
+                            <p className="text-sm text-gray-400">Try different keywords or</p>
+                            <Button variant="link" onClick={clearSearch}>
+                              Browse all projects
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </TabsContent>
 
@@ -139,9 +252,22 @@ const ConsultantDashboard = () => {
                     Latest projects posted by clients. Stay updated with new opportunities.
                   </p>
                   <div className="space-y-4">
-                    {sampleProjects
+                    {filteredProjects
                       .slice()
-                      .reverse()
+                      .sort((a, b) => {
+                        // Convert posted time to comparable values (newer first)
+                        const timeToMinutes = (timeStr) => {
+                          if (timeStr.includes("hour")) {
+                            return Number.parseInt(timeStr) * 60
+                          } else if (timeStr.includes("day")) {
+                            return Number.parseInt(timeStr) * 24 * 60
+                          } else if (timeStr.includes("minute")) {
+                            return Number.parseInt(timeStr)
+                          }
+                          return 0
+                        }
+                        return timeToMinutes(a.postedTime) - timeToMinutes(b.postedTime)
+                      })
                       .map((project) => (
                         <ProjectCard
                           key={project.id}
@@ -195,6 +321,7 @@ const ConsultantDashboard = () => {
         isOpen={isSidebarOpen}
         onClose={handleCloseSidebar}
         onSaveProject={handleSaveProject}
+        onAcceptProject={handleAcceptProject}
         isSaved={selectedProject ? isProjectSaved(selectedProject.id) : false}
       />
     </div>

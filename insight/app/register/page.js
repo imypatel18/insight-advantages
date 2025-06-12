@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Box, Button, Container, Link, Paper, TextField, Typography } from '@mui/material';import NextLink from 'next/link';
+import { Box, Button, Container, Link, Paper, TextField, Typography, Tabs, Tab } from '@mui/material';
+import NextLink from 'next/link';
 import Navbar from '../components/navbar';
 
 export default function RegisterPage() {
   const [values, setValues] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [tab, setTab] = useState('customer');
   const router = useRouter();
 
   const handleChange = (field) => (e) => {
@@ -42,6 +44,10 @@ export default function RegisterPage() {
      <Box sx={{ bgcolor: 'grey.100', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
         <Container maxWidth="sm">
           <Paper elevation={3} sx={{ p: 4 }}>
+            <Tabs value={tab} onChange={(e,v)=>setTab(v)} centered sx={{ mb: 2 }}>
+              <Tab label="Customer" value="customer" />
+              <Tab label="Consultant" value="consultant" />
+            </Tabs>
             <Box component="form" onSubmit={handleSubmit} noValidate>
           <Typography variant="h4" component="h1" gutterBottom>
             Sign up
