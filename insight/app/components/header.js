@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import ProfileDropdown from "./profile-dropdown"
+import Link from "next/link"
 
 export default function Header() {
   return (
@@ -34,7 +35,11 @@ export default function Header() {
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>Active Projects</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/active-projects" className="w-full cursor-pointer">
+                    Active Projects
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Completed Work</DropdownMenuItem>
                 <DropdownMenuItem>Contracts</DropdownMenuItem>
               </DropdownMenuContent>
