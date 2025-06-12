@@ -80,3 +80,4 @@ export default function ConsultantProfile() {
     </div>
   );
 }
+//page.js
