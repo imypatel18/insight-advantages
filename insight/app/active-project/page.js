@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
-import Header from "../../components/dashboard/header"
-import ActiveProjectCard from "../../components/active-project-card"
+import Header from "../components/header"
+import ActiveProjectCard from "../components/active-project-card"
 
 export default function ActiveProjectsPage() {
   // This would come from your global state/context

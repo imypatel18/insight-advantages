@@ -34,8 +34,13 @@ export default function SignUpPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // Redirect to dashboard after successful signup
-    router.push("/consultant-dashboard")
+    // Redirect to registration page with form data
+    const query = new URLSearchParams({
+      fullName: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+    }).toString()
+    
+    router.push(`/consultant/register?${query}`)
     setIsLoading(false)
   }
 
