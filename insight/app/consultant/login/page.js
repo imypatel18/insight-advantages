@@ -33,7 +33,7 @@ export default function SignInPage() {
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
     // Redirect to dashboard after successful signin
-    router.push("/consultant-dashboard")
+    router.push("/consultant/home")
     setIsLoading(false)
   }
 
@@ -49,7 +49,7 @@ export default function SignInPage() {
       <div className="relative w-full max-w-md">
         {/* Back button */}
         <Link
-          href="/consultant-dashboard"
+          href="/consultant/home"
           className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />

@@ -17,7 +17,7 @@ const SimpleHeader = () => {
         <div className="flex items-center space-x-2">
           <div className="text-2xl font-bold text-blue-600">ConsultPro</div>
         </div>
-        <Link href="/consultant-dashboard" className="text-blue-600 hover:text-blue-700">
+        <Link href="/consultant/home" className="text-blue-600 hover:text-blue-700">
           Back to Dashboard
         </Link>
       </div>
@@ -91,7 +91,7 @@ export default function ConsultantProfilePage() {
       <div className="container mx-auto px-4 py-6">
         {/* Back button */}
         <Link
-          href="/consultant-dashboard"
+          href="/consultant/home"
           className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
