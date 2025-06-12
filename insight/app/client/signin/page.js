@@ -68,40 +68,14 @@ export default function SignUpPage() {
           <CardContent className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultPro</div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign up</h1>
+              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultMatch</div>
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign In</h1>
               <p className="text-gray-600">Join thousands of successful consultants</p>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* First Name */}
-              <div>
-                <Input
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name *"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  required
-                  className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
-                />
-              </div>
-
-              {/* Last Name */}
-              <div>
-                <Input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name *"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  required
-                  className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
-                />
-              </div>
-
-              {/* Email */}
+                        {/* Email */}
               <div>
                 <Input
                   type="email"
@@ -134,15 +108,7 @@ export default function SignUpPage() {
                 </button>
               </div>
 
-              {/* Password requirements */}
-              <div className="text-sm text-gray-500">
-                <p>Password must contain at least:</p>
-                <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li>8 characters</li>
-                  <li>One uppercase letter</li>
-                  <li>One number</li>
-                </ul>
-              </div>
+              
 
               {/* Register Button */}
               <Button
@@ -156,16 +122,16 @@ export default function SignUpPage() {
                     Creating Account...
                   </div>
                 ) : (
-                  "REGISTER"
+                  "Sign In"
                 )}
               </Button>
 
               {/* Sign in link */}
               <div className="text-center">
                 <p className="text-gray-600">
-                  Already have an account?{" "}
-                  <Link href="signin" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
-                    Sign in
+                  New User Register?{" "}
+                  <Link href="/client/signup" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
+                    Sign up
                   </Link>
                 </p>
               </div>
@@ -174,7 +140,7 @@ export default function SignUpPage() {
             {/* Terms and Privacy */}
             <div className="mt-6 text-center">
               <p className="text-xs text-gray-500">
-                By signing up, you agree to our{" "}
+                By signing in, you agree to our{" "}
                 <Link href="/terms" className="text-blue-600 hover:underline">
                   Terms of Service
                 </Link>{" "}

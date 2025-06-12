@@ -107,17 +107,7 @@ const HowItWorks = () => {
         </div>
         
         {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <p className="text-blue-100 mb-6 text-lg">Ready to get started?</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-[#3b5998] px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
-              Join as Consultant
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300">
-              For Organizations
-            </button>
-          </div>
-        </div>
+        
       </div>
       
       {/* Floating Animation Elements */}

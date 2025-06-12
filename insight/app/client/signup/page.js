@@ -40,7 +40,7 @@ export default function SignUpPage() {
       email: formData.email,
     }).toString()
     
-    router.push(`/consultant/register?${query}`)
+    router.push(`/client/register?${query}`)
     setIsLoading(false)
   }
 
@@ -68,7 +68,7 @@ export default function SignUpPage() {
           <CardContent className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultPro</div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultMatch</div>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign up</h1>
               <p className="text-gray-600">Join thousands of successful consultants</p>
             </div>
@@ -164,7 +164,7 @@ export default function SignUpPage() {
               <div className="text-center">
                 <p className="text-gray-600">
                   Already have an account?{" "}
-                  <Link href="signin" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
+                  <Link href="/client/signin" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
                     Sign in
                   </Link>
                 </p>
