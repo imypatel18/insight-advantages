@@ -13,7 +13,11 @@ export default function Header() {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-blue-600">ConsultPro</div>
+            <Link href="/consultant/home">
+              <div className="text-2xl font-bold text-blue-600 cursor-pointer">
+                ConsultMatch
+              </div>
+            </Link>
           </div>
 
           <nav className="hidden md:flex items-center space-x-6">
