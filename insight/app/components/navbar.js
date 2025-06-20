@@ -9,7 +9,7 @@ export default function Navbar() {
         {/* LEFT: Logo + Nav Links */}
         <div className="flex items-center gap-10">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-blue-900">
+          <Link href="/consultant/home">
             ConsultMatch
           </Link>
 

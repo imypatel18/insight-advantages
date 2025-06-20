@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Settings, CreditCard, User, HelpCircle, ChevronRight, Bell, Lock, Globe, Mail, ArrowLeft, Check, X, Phone, MessageCircle, FileText, Shield, Eye, Trash2 } from 'lucide-react';
+import Link from 'next/link'
 
 const SettingsDropdownNav = () => {
   const [activeSection, setActiveSection] = useState('main');
@@ -392,8 +393,12 @@ const SettingsDropdownNav = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-blue-600">ConsultMatch</span>
-            </div>
+  <Link href="/client">
+    <span className="text-2xl font-bold text-blue-600 cursor-pointer">
+      ConsultMatch
+    </span>
+  </Link>
+</div>
 
             {/* Navigation Items */}
             <div className="flex items-center space-x-8">
