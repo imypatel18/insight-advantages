@@ -66,7 +66,7 @@ export default function ProfileDropdown() {
         <DropdownMenuSeparator />
 
         {/* Menu Items */}
-        <DropdownMenuItem className="px-4 py-3 cursor-pointer" onClick={() => router.push("/consultant-profile")}>
+        <DropdownMenuItem className="px-4 py-3 cursor-pointer" onClick={() => router.push("/consultant/profile")}>
           <User className="mr-3 h-4 w-4" />
           <span>Your profile</span>
         </DropdownMenuItem>

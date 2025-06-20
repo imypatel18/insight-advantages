@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Users, Brain, Shield, Diamond, FileText, Target, Globe, Zap } from 'lucide-react';
 
 const FeaturesSection = () => {
@@ -97,9 +98,11 @@ const FeaturesSection = () => {
         {/* Bottom CTA */}
         <div className="text-center mt-16">
           <p className="text-gray-600 mb-6">Ready to experience the difference?</p>
-          <button className="bg-gradient-to-r from-[#3b5998] to-[#4c6ef5] text-white px-8 py-4 rounded-xl font-semibold hover:from-[#2d4373] hover:to-[#3b5998] transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Explore All Features
-          </button>
+          <Link href="/about">
+            <button className="bg-gradient-to-r from-[#3b5998] to-[#4c6ef5] text-white px-8 py-4 rounded-xl font-semibold hover:from-[#2d4373] hover:to-[#3b5998] transition-all duration-300 transform hover:scale-105 shadow-lg">
+              Explore All Features
+            </button>
+          </Link>
         </div>
       </div>
     </section>
