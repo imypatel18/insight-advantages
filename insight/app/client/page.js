@@ -1261,21 +1261,38 @@ export default function HomePage() {
                       </Button>
                     </div>
                   </div>
+                  
                 </CardContent>
+                
               </Card>
+
+              
             ))}
-          </div>
+
+             <div className="flex justify-center min-h-screen ml-150">
+              <Button 
+                onClick={() => setShowResults(false)} 
+                variant="outline" 
+                className="text-center border border-gray-300 w-fit px-6 py-2"
+              >
+                Back to Home
+              </Button>
+
+            </div>
+            
+            </div>
 
           {searchResults.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-500 text-lg mb-4">No consultants found matching your search</div>
               <p className="text-gray-400 mb-6">Try adjusting your search terms or browse our categories</p>
-              <Button onClick={() => setShowResults(false)} variant="outline">
-                Back to Home
-              </Button>
+              
             </div>
           )}
         </div>
+
+
+
       </div>
     )
   }

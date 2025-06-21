@@ -89,24 +89,45 @@ export default function CreatePostPage() {
   }
 
   return (
-    <Box minHeight="100vh" bgcolor="#f9fafb">
+    <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-100 to-blue-300">
       <Header />
       <Box maxWidth="lg" mx="auto" px={2} py={6}>
         <Link href="/consultant/home" passHref>
-          <Button startIcon={<ArrowLeft />} sx={{ mb: 3 }}>
+          <Button 
+            startIcon={<ArrowLeft />} 
+            sx={{ 
+              mb: 3,
+              color: "#1e40af",
+              '&:hover': {
+                backgroundColor: "rgba(30, 64, 175, 0.1)"
+              }
+            }}
+          >
             Back to Dashboard
           </Button>
         </Link>
 
-        <Typography variant="h4" fontWeight="bold" mb={2}>
+        <Typography variant="h4" fontWeight="bold" mb={2} color="#1e3a8a">
           Create New Project Post
         </Typography>
-        <Typography variant="body1" color="text.secondary" mb={4}>
+        <Typography variant="body1" color="#3b82f6" mb={4}>
           Post a new project to find the perfect consultant
         </Typography>
 
-        <Card>
-          <CardHeader title="Project Details" />
+        <Card sx={{ 
+          borderRadius: 3,
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "rgba(255, 255, 255, 0.9)"
+        }}>
+          <CardHeader 
+            title="Project Details" 
+            sx={{ 
+              backgroundColor: "#1e40af",
+              color: "white",
+              borderTopLeftRadius: "12px !important",
+              borderTopRightRadius: "12px !important"
+            }} 
+          />
           <CardContent>
             <Box component="form" onSubmit={handleSubmit} noValidate>
               <TextField
@@ -117,6 +138,16 @@ export default function CreatePostPage() {
                 onChange={handleInputChange}
                 margin="normal"
                 required
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: '#93c5fd',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#3b82f6',
+                    },
+                  },
+                }}
               />
 
               <Grid container spacing={2}>
@@ -129,6 +160,16 @@ export default function CreatePostPage() {
                     onChange={handleInputChange}
                     margin="normal"
                     required
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          borderColor: '#93c5fd',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#3b82f6',
+                        },
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -140,6 +181,16 @@ export default function CreatePostPage() {
                     onChange={handleInputChange}
                     margin="normal"
                     required
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          borderColor: '#93c5fd',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#3b82f6',
+                        },
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -149,6 +200,16 @@ export default function CreatePostPage() {
                       value={formData.experienceLevel}
                       onChange={(e) => handleSelectChange("experienceLevel", e.target.value)}
                       label="Experience Level"
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderColor: '#93c5fd',
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#3b82f6',
+                          },
+                        },
+                      }}
                     >
                       <MenuItem value="Beginner">Beginner</MenuItem>
                       <MenuItem value="Intermediate">Intermediate</MenuItem>
@@ -168,10 +229,20 @@ export default function CreatePostPage() {
                 multiline
                 minRows={4}
                 required
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: '#93c5fd',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#3b82f6',
+                    },
+                  },
+                }}
               />
 
               <Box my={2}>
-                <Typography variant="subtitle1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom color="#1e3a8a">
                   Required Skills
                 </Typography>
                 {formData.skills.map((skill, index) => (
@@ -181,15 +252,50 @@ export default function CreatePostPage() {
                       onChange={(e) => handleSkillChange(index, e.target.value)}
                       placeholder="e.g., Business Strategy"
                       fullWidth
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderColor: '#93c5fd',
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#3b82f6',
+                          },
+                        },
+                      }}
                     />
                     {formData.skills.length > 1 && (
-                      <Button onClick={() => removeSkill(index)} variant="outlined">
+                      <Button 
+                        onClick={() => removeSkill(index)} 
+                        variant="outlined"
+                        sx={{
+                          color: "#ef4444",
+                          borderColor: "#ef4444",
+                          '&:hover': {
+                            backgroundColor: "rgba(239, 68, 68, 0.1)",
+                            borderColor: "#dc2626"
+                          }
+                        }}
+                      >
                         <X fontSize={16} />
                       </Button>
                     )}
                   </Box>
                 ))}
-                <Button onClick={addSkill} variant="outlined" startIcon={<Plus />}>Add Skill</Button>
+                <Button 
+                  onClick={addSkill} 
+                  variant="outlined" 
+                  startIcon={<Plus />}
+                  sx={{
+                    color: "#1e40af",
+                    borderColor: "#1e40af",
+                    '&:hover': {
+                      backgroundColor: "rgba(30, 64, 175, 0.1)",
+                      borderColor: "#1e3a8a"
+                    }
+                  }}
+                >
+                  Add Skill
+                </Button>
               </Box>
 
               <TextField
@@ -200,28 +306,53 @@ export default function CreatePostPage() {
                 onChange={handleInputChange}
                 margin="normal"
                 required
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: '#93c5fd',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#3b82f6',
+                    },
+                  },
+                }}
               />
 
               {formData.title && (
-                <Box mt={4} borderRadius={2} border={1} borderColor="grey.300" p={2} bgcolor="#fff">
-                  <Typography variant="h6" gutterBottom>
+                <Box 
+                  mt={4} 
+                  borderRadius={2} 
+                  border={1} 
+                  borderColor="#93c5fd" 
+                  p={2} 
+                  bgcolor="rgba(255, 255, 255, 0.7)"
+                >
+                  <Typography variant="h6" gutterBottom color="#1e3a8a">
                     Preview
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" color="#3b82f6">
                     Posted just now
                   </Typography>
-                  <Typography variant="h6" color="primary" mt={1}>
+                  <Typography variant="h6" color="#1e40af" mt={1}>
                     {formData.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <Typography variant="body2" color="#3b82f6" gutterBottom>
                     {formData.budget} &bull; {formData.duration} &bull; {formData.experienceLevel}
                   </Typography>
-                  <Typography variant="body1" mt={1}>
+                  <Typography variant="body1" mt={1} color="#1e3a8a">
                     {formData.description}
                   </Typography>
                   <Box mt={1} display="flex" gap={1} flexWrap="wrap">
                     {formData.skills.filter((s) => s.trim() !== "").map((skill, idx) => (
-                      <Chip key={idx} label={skill} size="small" />
+                      <Chip 
+                        key={idx} 
+                        label={skill} 
+                        size="small" 
+                        sx={{
+                          backgroundColor: "#dbeafe",
+                          color: "#1e40af"
+                        }}
+                      />
                     ))}
                   </Box>
                 </Box>
@@ -231,7 +362,12 @@ export default function CreatePostPage() {
                 <Button
                   type="submit"
                   variant="contained"
-                  color="primary"
+                  sx={{
+                    backgroundColor: "#1e40af",
+                    '&:hover': {
+                      backgroundColor: "#1e3a8a"
+                    }
+                  }}
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Creating Post..." : "Create Project Post"}
@@ -241,6 +377,6 @@ export default function CreatePostPage() {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </div>
   )
 }
