@@ -188,7 +188,7 @@ const ConsultantDashboard = () => {
                 <h2 className="text-xl font-semibold">
                   {searchQuery ? `Search Results (${filteredProjects.length})` : "Projects you might like"}
                 </h2>
-                {searchQuery && (
+                {searchQuery && ( 
                   <Button variant="outline" size="sm" onClick={clearSearch}>
                     Clear Search
                   </Button>
