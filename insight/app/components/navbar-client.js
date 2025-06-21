@@ -1,10 +1,13 @@
 "use client"
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+
 import {
   Search, Bell, HelpCircle, ChevronDown, User, Settings,
   MessageSquare, Bookmark, TrendingUp, FileText, Star,
-  Menu, X, Plus, FolderOpen, CreditCard, UserCheck
+  Menu, X, Plus, FolderOpen, CreditCard, UserCheck,
+  Lock, Globe, Link as LinkIcon, Users
 } from "lucide-react";
 
 import TooltipIcon from '@/components/ui/TooltipIcon';
@@ -12,6 +15,7 @@ import TooltipIcon from '@/components/ui/TooltipIcon';
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeProfileSection, setActiveProfileSection] = useState('main');
 
   const toggleDropdown = (dropdown) => {
     setIsDropdownOpen(isDropdownOpen === dropdown ? null : dropdown);
@@ -45,6 +49,12 @@ export default function Navbar() {
       )}
     </button>
   );
+
+  const SectionHeader = ({ title }) => (
+  <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+    {title}
+  </div>
+);
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-40 backdrop-blur-sm bg-white/95">
@@ -131,7 +141,9 @@ export default function Navbar() {
                     </div>
                   </div>
                   <DropdownItem icon={User}>Profile</DropdownItem>
+                  <Link href="/account-setting">
                   <DropdownItem icon={Settings}>Account Settings</DropdownItem>
+                  </Link>
                   <div className="border-t border-gray-100 my-2"></div>
                   <DropdownItem icon={FileText}>Document Management</DropdownItem>
                   <DropdownItem icon={CreditCard} badge="Pro">Subscription</DropdownItem>
