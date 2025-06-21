@@ -9,7 +9,7 @@ export default function PromotionalBanner() {
   const router = useRouter()
 
   const handleUpgradeClick = () => {
-    router.push("/pricing")
+    router.push("/consultant/pricing")
   }
   return (
     <Card className="relative bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 mb-6">

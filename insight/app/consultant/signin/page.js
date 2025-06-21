@@ -8,9 +8,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   })
@@ -32,13 +34,18 @@ export default function SignInPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // Redirect to dashboard after successful signin
-    router.push("/consultant/home")
+    // Redirect to registration page with form data
+    const query = new URLSearchParams({
+      fullName: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+    }).toString()
+    
+    router.push(`/consultant/home`)
     setIsLoading(false)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center p-4">
+<div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-100 to-blue-300 flex items-center justify-center p-4">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full opacity-20 animate-pulse"></div>
@@ -49,26 +56,26 @@ export default function SignInPage() {
       <div className="relative w-full max-w-md">
         {/* Back button */}
         <Link
-          href="/consultant/home"
-          className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6 transition-colors"
+          href="/"
+          className="inline-flex items-center text-black hover:text-blue-700 mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Dashboard
+          Back to Home
         </Link>
 
-        {/* Main signin card */}
+        {/* Main signup card */}
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultPro</div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome back</h1>
-              <p className="text-gray-600">Sign in to your account</p>
+              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultMatch</div>
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign In</h1>
+              <p className="text-gray-600">Join thousands of successful consultants</p>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email */}
+                        {/* Email */}
               <div>
                 <Input
                   type="email"
@@ -101,14 +108,9 @@ export default function SignInPage() {
                 </button>
               </div>
 
-              {/* Forgot password */}
-              <div className="text-right">
-                <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">
-                  Forgot your password?
-                </Link>
-              </div>
+              
 
-              {/* Sign In Button */}
+              {/* Register Button */}
               <Button
                 type="submit"
                 disabled={isLoading}
@@ -117,25 +119,79 @@ export default function SignInPage() {
                 {isLoading ? (
                   <div className="flex items-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Signing In...
+                    Logging In...
                   </div>
                 ) : (
-                  "SIGN IN"
+                  "Sign In"
                 )}
               </Button>
 
-              {/* Sign up link */}
+              {/* Sign in link */}
               <div className="text-center">
                 <p className="text-gray-600">
-                  Don't have an account?{" "}
+                  New User Register?{" "}
                   <Link href="/consultant/signup" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
                     Sign up
                   </Link>
                 </p>
               </div>
             </form>
+
+            {/* Terms and Privacy */}
+            <div className="mt-6 text-center">
+              <p className="text-xs text-gray-500">
+                By signing in, you agree to our{" "}
+                <Link href="/terms" className="text-blue-600 hover:underline">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link href="/privacy" className="text-blue-600 hover:underline">
+                  Privacy Policy
+                </Link>
+              </p>
+            </div>
           </CardContent>
         </Card>
+
+        {/* Additional features */}
+        <div className="mt-8 text-center">
+          <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <span>Verified</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+              <span>Secure</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mb-2">
+                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <span>Fast Setup</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
