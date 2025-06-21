@@ -118,6 +118,7 @@ const PostService = () => {
       certifications: prev.certifications.filter((cert) => cert !== certificationToRemove),
     }))
   }
+//juyuyuy
 
   const handleSubmit = (e) => {
     e.preventDefault()
