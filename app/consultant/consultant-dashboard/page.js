@@ -287,7 +287,7 @@ const ConsultantDashboard = () => {
   }
 
   const handleViewProfile = () => {
-    router.push("/profile")
+    router.push("/consultant/profile")
   }
 
   const handleLogout = () => {
