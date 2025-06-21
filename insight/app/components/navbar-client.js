@@ -1,9 +1,13 @@
+"use client"
+
 import React, { useState } from 'react';
 import {
   Search, Bell, HelpCircle, ChevronDown, User, Settings,
   MessageSquare, Bookmark, TrendingUp, FileText, Star,
   Menu, X, Plus, FolderOpen, CreditCard, UserCheck
 } from "lucide-react";
+
+import TooltipIcon from '@/components/ui/TooltipIcon';
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
@@ -89,13 +93,12 @@ export default function Navbar() {
             </div>
 
             <div className="hidden sm:flex items-center space-x-3">
-              <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
-                <HelpCircle className="h-5 w-5" />
-              </button>
+
               <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
                 <Bell className="h-5 w-5" />
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
               </button>
+
               <button className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
                 <MessageSquare className="h-4 w-4" />
                 <span>Messages</span>
@@ -113,6 +116,7 @@ export default function Navbar() {
                 </div>
                 <ChevronDown className={`h-4 w-4 text-gray-600 transition-transform duration-200 ${isDropdownOpen === 'profile' ? 'rotate-180' : ''}`} />
               </button>
+
               {isDropdownOpen === 'profile' && (
                 <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="px-4 py-3 border-b border-gray-100">
