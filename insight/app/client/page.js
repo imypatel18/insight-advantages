@@ -1340,7 +1340,8 @@ export default function HomePage() {
                           : "bg-white/10 border-white/20 text-white/80 hover:bg-white/20"
                       }`}
                     >
-                      Find talent
+                      
+                      talent
                     </Button>
                     <Button
                       onClick={() => setSearchType("jobs")}
