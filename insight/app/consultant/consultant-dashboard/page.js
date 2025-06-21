@@ -1,5 +1,6 @@
 "use client"
 
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import {
@@ -20,6 +21,7 @@ import {
   CreditCard,
   Settings,
   LogOut,
+  Plus,
 } from "lucide-react"
 
 const ConsultantDashboard = () => {
@@ -263,16 +265,6 @@ const ConsultantDashboard = () => {
     setSearchQuery("")
   }
 
-  const handleAcceptProject = (project) => {
-    setActiveProjects((prev) => {
-      const isAlreadyActive = prev.some((p) => p.id === project.id)
-      if (!isAlreadyActive) {
-        return [...prev, { ...project, acceptedAt: new Date(), status: "active" }]
-      }
-      return prev
-    })
-  }
-
   const handleSendMessage = () => {
     if (messageText.trim()) {
       const newMessage = {
@@ -295,11 +287,10 @@ const ConsultantDashboard = () => {
   }
 
   const handleViewProfile = () => {
-    router.push("/consultant/profile")
+    router.push("/profile")
   }
 
   const handleLogout = () => {
-    // Handle logout logic here
     console.log("Logging out...")
   }
 
@@ -463,7 +454,7 @@ const ConsultantDashboard = () => {
                     </button>
                     <button
                       onClick={() => {
-                        router.push("/subscription")
+                        router.push("/pricing")
                         setIsProfileDropdownOpen(false)
                       }}
                       className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3"
@@ -517,7 +508,7 @@ const ConsultantDashboard = () => {
                     Premium consultants get 3x more project invitations and higher client response rates.
                   </p>
                   <button
-                    onClick={() => router.push("/subscription")}
+                    onClick={() => router.push("/pricing")}
                     className="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100"
                   >
                     Upgrade Now
@@ -713,12 +704,21 @@ const ConsultantDashboard = () => {
                   <div className="bg-black h-2 rounded-full" style={{ width: "85%" }}></div>
                 </div>
               </div>
-              <button
-                onClick={handleViewProfile}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-sm font-medium"
-              >
-                View Profile
-              </button>
+              <div className="space-y-3">
+                <button
+                  onClick={handleViewProfile}
+                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-sm font-medium"
+                >
+                  View Profile
+                </button>
+                <button
+                  onClick={() => router.push("/consultant/post-service")}
+                  className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 text-sm font-medium flex items-center justify-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Post My Services
+                </button>
+              </div>
             </div>
 
             <div className="bg-white rounded-lg p-6 mb-6">
@@ -854,7 +854,6 @@ const ConsultantDashboard = () => {
                   <button
                     className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
                     onClick={() => {
-                      // Handle request attachment functionality
                       console.log("Request attachment for project:", selectedProject.id)
                     }}
                   >
@@ -968,7 +967,6 @@ const ConsultantDashboard = () => {
       {/* Message Page */}
       {isMessagePageOpen && messageClient && (
         <div className="fixed inset-0 bg-white z-50 flex flex-col">
-          {/* Message Header */}
           <div className="bg-white border-b px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button onClick={handleCloseMessagePage} className="text-gray-500 hover:text-gray-700">
@@ -990,7 +988,6 @@ const ConsultantDashboard = () => {
             </div>
           </div>
 
-          {/* Messages Container */}
           <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
             <div className="max-w-4xl mx-auto space-y-4">
               {messages.length === 0 ? (
@@ -1027,7 +1024,6 @@ const ConsultantDashboard = () => {
             </div>
           </div>
 
-          {/* Message Input */}
           <div className="bg-white border-t p-4">
             <div className="max-w-4xl mx-auto">
               <div className="flex items-end gap-4">
