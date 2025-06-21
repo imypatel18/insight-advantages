@@ -15,7 +15,7 @@ export default function Navbar() {
 
           {/* Nav Links */}
           <div className="hidden md:flex items-center gap-6 text-gray-800 font-medium">
-            <Link href="/pricing" className="hover:text-blue-700">Pricing</Link>
+            <Link href="/subscription" className="hover:text-blue-700">Pricing</Link>
             <Link href="/about" className="hover:text-blue-700">About</Link>
             <Link href="/contact" className="hover:text-blue-700">Contact</Link>
           </div>
