@@ -21,6 +21,13 @@ export default function ProfileDropdown() {
     setIsOnlineForMessages(!isOnlineForMessages)
   }
 
+  const handleLogout = () => {
+    const confirmed = window.confirm("Are you sure you want to log out?");
+    if (confirmed) {
+      router.push('/');
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -100,8 +107,10 @@ export default function ProfileDropdown() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem className="px-4 py-3 cursor-pointer text-red-600 focus:text-red-600">
-          <LogOut className="mr-3 h-4 w-4" />
-          <span>Log out</span>
+              <button onClick={handleLogout} className="flex items-center text-red-600 hover:text-red-800">
+                    <LogOut className="mr-3 h-4 w-4" />
+                    Logout
+                  </button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
