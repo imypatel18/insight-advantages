@@ -2,14 +2,15 @@
 
 import React from 'react';
 import RequestHistory from './request-history-client';
-import BackToHomeButton from '@/app/components/BackToClientHome';
+import ClientNavbar from '../../../../app/components/navbar-client';
 
 export default function RequestHistoryPage() {
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800"></h1>
-      <BackToHomeButton />
-      <RequestHistory />
-    </div>
+    <>
+      <ClientNavbar />
+      <div className="max-w-6xl mx-auto p-6">
+        <RequestHistory />
+      </div>
+    </>
   );
 }
