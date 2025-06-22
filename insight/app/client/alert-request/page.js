@@ -1,14 +1,14 @@
 "use client";
 
 import dynamic from 'next/dynamic';
-import BackToHomeButton from '@/app/components/BackToClientHome';
+import ClientNavbar from '../../../../app/components/navbar-client';
 
 const RequestAlertsPage = dynamic(() => import('./alert-request-client'), { ssr: false });
 
 export default function Page() {
   return (
     <>
-      <BackToHomeButton />
+      <ClientNavbar />
       <RequestAlertsPage />
     </>
   );
