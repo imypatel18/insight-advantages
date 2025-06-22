@@ -40,7 +40,7 @@ export default function SignUpPage() {
       email: formData.email,
     }).toString()
     
-    router.push(`/client/`)
+    router.push('/client')
     setIsLoading(false)
   }
 
