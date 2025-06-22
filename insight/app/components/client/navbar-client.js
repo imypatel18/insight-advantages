@@ -1,5 +1,8 @@
 "use client"
 
+
+import ClientNotificationDropdown from './ClientNotificationDropdown';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 
@@ -105,15 +108,18 @@ export default function Navbar() {
             <div className="hidden sm:flex items-center space-x-3">
 
               <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
-                <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
+                  <ClientNotificationDropdown />
               </button>
 
-              <button className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
+             <Link
+                href="/client/message"
+                className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative"
+              >
                 <MessageSquare className="h-4 w-4" />
                 <span>Messages</span>
                 <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 ml-1">3</span>
-              </button>
+              </Link>
+
             </div>
 
             <div className="relative">
