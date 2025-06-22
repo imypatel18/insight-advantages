@@ -86,11 +86,18 @@ export default function Navbar() {
                 isOpen={isDropdownOpen === 'requests'}
                 onToggle={() => toggleDropdown('requests')}
               >
-                <DropdownItem icon={Plus}>Post Request</DropdownItem>
-                <DropdownItem icon={FolderOpen} badge="5">Active Requests</DropdownItem>
+                <Link href="/client/post-request">
+                  <DropdownItem icon={Plus}>Post Request</DropdownItem>
+                </Link>
+                <Link href="/client/active-requests">
+                <DropdownItem icon={FolderOpen}>Active Requests</DropdownItem>
+                </Link>
+                <Link href="/client/history-request">
                 <DropdownItem icon={FileText}>Request History</DropdownItem>
-                <div className="border-t border-gray-100 my-2"></div>
+                </Link>
+                <Link href="/client/alert-request">
                 <DropdownItem icon={Bell}>Request Alerts</DropdownItem>
+                </Link>
               </DropdownMenu>
             </nav>
           </div>
