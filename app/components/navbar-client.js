@@ -1,3 +1,5 @@
+import Link from "next/link"; 
+
 import React, { useState } from 'react';
 import {
   Search, Bell, HelpCircle, ChevronDown, User, Settings,
@@ -48,7 +50,9 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
             <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-              ConsultMatch
+              <Link href="/client">
+                <span className="text-2xl font-bold text-blue-600 cursor-pointer">ConsultMatch</span>
+              </Link>
             </div>
             <nav className="hidden lg:flex items-center space-x-4">
               <DropdownMenu
@@ -69,11 +73,21 @@ export default function Navbar() {
                 isOpen={isDropdownOpen === 'requests'}
                 onToggle={() => toggleDropdown('requests')}
               >
-                <DropdownItem icon={Plus}>Post Request</DropdownItem>
-                <DropdownItem icon={FolderOpen} badge="5">Active Requests</DropdownItem>
-                <DropdownItem icon={FileText}>Request History</DropdownItem>
-                <div className="border-t border-gray-100 my-2"></div>
-                <DropdownItem icon={Bell}>Request Alerts</DropdownItem>
+                 <Link href="/client/post-request">
+                  <DropdownItem icon={Plus}>Post Request</DropdownItem>
+                </Link>
+
+                 <Link href="/client/active-requests">
+                  <DropdownItem icon={FolderOpen} badge="5">Active Requests</DropdownItem>
+                </Link>
+
+                <Link href="/client/history-request">
+                  <DropdownItem icon={FileText}>Request History</DropdownItem>
+                </Link>
+
+                <Link href="/client/alert-request">
+                  <DropdownItem icon={Bell}>Request Alerts</DropdownItem>
+                </Link>
               </DropdownMenu>
             </nav>
           </div>
@@ -127,15 +141,9 @@ export default function Navbar() {
                     </div>
                   </div>
                   <DropdownItem icon={User}>Profile</DropdownItem>
-                  <DropdownItem icon={Settings}>Account Settings</DropdownItem>
-                  <div className="border-t border-gray-100 my-2"></div>
                   <DropdownItem icon={FileText}>Document Management</DropdownItem>
                   <DropdownItem icon={CreditCard} badge="Pro">Subscription</DropdownItem>
-                  <div className="border-t border-gray-100 my-2"></div>
-                  <DropdownItem icon={Bookmark}>Saved Consultants</DropdownItem>
-                  <DropdownItem icon={TrendingUp}>Trending Skills</DropdownItem>
-                  <DropdownItem icon={Settings}>Preferences</DropdownItem>
-                  <div className="border-t border-gray-100 my-2"></div>
+                  <DropdownItem icon={Settings}>Account Settings</DropdownItem>
                   <button className="w-full flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
                     <span>Sign Out</span>
                   </button>

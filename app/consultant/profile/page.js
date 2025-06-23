@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import {
   ArrowLeft,
   Edit,
@@ -15,6 +15,9 @@ import {
   Save,
   X,
   Plus,
+  Upload,
+  FileText,
+  ImageIcon,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -37,6 +40,34 @@ const SimpleHeader = () => {
         </Link>
       </div>
     </header>
+  )
+}
+
+// File Upload Component
+const FileUpload = ({ onFileSelect, accept, multiple = false, children }) => {
+  const fileInputRef = useRef(null)
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files)
+    if (files.length > 0) {
+      onFileSelect(multiple ? files : files[0])
+    }
+  }
+
+  return (
+    <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={accept}
+        multiple={multiple}
+        onChange={handleFileChange}
+        className="hidden"
+      />
+      <div onClick={() => fileInputRef.current?.click()} className="cursor-pointer">
+        {children}
+      </div>
+    </>
   )
 }
 
@@ -94,6 +125,9 @@ const initialProfileData = {
   rating: 4.9,
   totalProjects: 47,
   successRate: 98,
+  profileImage: null,
+  resumeFile: null,
+  certificateFiles: [],
 }
 
 export default function ConsultantProfilePage() {
@@ -134,6 +168,41 @@ export default function ConsultantProfilePage() {
     setTempData((prev) => ({
       ...prev,
       [field]: prev[field].filter((_, i) => i !== index),
+    }))
+  }
+
+  const handleProfileImageUpload = (file) => {
+    if (file) {
+      const imageUrl = URL.createObjectURL(file)
+      setTempData((prev) => ({
+        ...prev,
+        profileImage: imageUrl,
+      }))
+    }
+  }
+
+  const handleResumeUpload = (file) => {
+    if (file) {
+      setTempData((prev) => ({
+        ...prev,
+        resumeFile: file,
+      }))
+    }
+  }
+
+  const handleCertificateUpload = (files) => {
+    if (files && files.length > 0) {
+      setTempData((prev) => ({
+        ...prev,
+        certificateFiles: [...prev.certificateFiles, ...files],
+      }))
+    }
+  }
+
+  const removeCertificateFile = (index) => {
+    setTempData((prev) => ({
+      ...prev,
+      certificateFiles: prev.certificateFiles.filter((_, i) => i !== index),
     }))
   }
 
@@ -180,15 +249,24 @@ export default function ConsultantProfilePage() {
             {/* Profile Card */}
             <Card>
               <CardContent className="p-6 text-center">
-                <Avatar className="h-24 w-24 mx-auto mb-4">
-                  <AvatarImage src="/placeholder.svg?height=96&width=96" />
-                  <AvatarFallback className="text-2xl">
-                    {currentData.fullName
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="relative mb-4">
+                  <Avatar className="h-24 w-24 mx-auto">
+                    <AvatarImage src={currentData.profileImage || "/placeholder.svg?height=96&width=96"} />
+                    <AvatarFallback className="text-2xl">
+                      {currentData.fullName
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  {isEditing && (
+                    <FileUpload onFileSelect={handleProfileImageUpload} accept="image/*">
+                      <div className="absolute -bottom-2 -right-2 bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition-colors">
+                        <ImageIcon className="h-4 w-4" />
+                      </div>
+                    </FileUpload>
+                  )}
+                </div>
 
                 {isEditing ? (
                   <div className="space-y-3 mb-4">
@@ -227,7 +305,21 @@ export default function ConsultantProfilePage() {
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">{currentData.successRate}%</div>
+                    {isEditing ? (
+                      <div>
+                        <Input
+                          type="number"
+                          value={tempData.successRate}
+                          onChange={(e) => handleInputChange("successRate", e.target.value)}
+                          className="text-center text-2xl font-bold text-blue-600 h-8 w-16 mx-auto mb-1"
+                          min="0"
+                          max="100"
+                        />
+                        <span className="text-2xl font-bold text-blue-600">%</span>
+                      </div>
+                    ) : (
+                      <div className="text-2xl font-bold text-blue-600">{currentData.successRate}%</div>
+                    )}
                     <div className="text-sm text-gray-600">Success Rate</div>
                   </div>
                   <div className="text-center">
@@ -320,6 +412,38 @@ export default function ConsultantProfilePage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Resume Upload Section */}
+            {isEditing && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <FileText className="h-5 w-5 mr-2" />
+                    Resume
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <FileUpload onFileSelect={handleResumeUpload} accept=".pdf,.doc,.docx">
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-500 transition-colors">
+                      <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                      <p className="text-sm text-gray-600">Click to upload resume</p>
+                      <p className="text-xs text-gray-500">PDF, DOC, DOCX (Max 10MB)</p>
+                    </div>
+                  </FileUpload>
+                  {currentData.resumeFile && (
+                    <div className="mt-3 p-3 bg-green-50 rounded-lg flex items-center justify-between">
+                      <div className="flex items-center">
+                        <FileText className="h-4 w-4 mr-2 text-green-600" />
+                        <span className="text-sm text-green-800">{currentData.resumeFile.name}</span>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => handleInputChange("resumeFile", null)}>
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
 
             {/* Profile Completion */}
             <Card>
@@ -740,25 +864,58 @@ export default function ConsultantProfilePage() {
               </CardHeader>
               <CardContent>
                 {isEditing ? (
-                  <div className="space-y-2">
-                    {tempData.certificates.map((cert, index) => (
-                      <div key={index} className="flex gap-2">
-                        <Input
-                          value={cert}
-                          onChange={(e) => handleArrayChange("certificates", index, e.target.value)}
-                          className="flex-1"
-                          placeholder="Enter certificate name"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => removeArrayItem("certificates", index)}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ))}
+                  <div className="space-y-4">
+                    {/* Certificate Names */}
+                    <div className="space-y-2">
+                      {tempData.certificates.map((cert, index) => (
+                        <div key={index} className="flex gap-2">
+                          <Input
+                            value={cert}
+                            onChange={(e) => handleArrayChange("certificates", index, e.target.value)}
+                            className="flex-1"
+                            placeholder="Enter certificate name"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => removeArrayItem("certificates", index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Certificate File Upload */}
+                    <div className="border-t pt-4">
+                      <h5 className="font-medium mb-2">Upload Certificate Files</h5>
+                      <FileUpload onFileSelect={handleCertificateUpload} accept=".pdf,.jpg,.jpeg,.png" multiple>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-500 transition-colors">
+                          <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                          <p className="text-sm text-gray-600">Click to upload certificate files</p>
+                          <p className="text-xs text-gray-500">PDF, JPG, PNG (Max 5MB each)</p>
+                        </div>
+                      </FileUpload>
+
+                      {/* Uploaded Certificate Files */}
+                      {currentData.certificateFiles.length > 0 && (
+                        <div className="mt-3 space-y-2">
+                          <h6 className="text-sm font-medium">Uploaded Files:</h6>
+                          {currentData.certificateFiles.map((file, index) => (
+                            <div key={index} className="flex items-center justify-between p-2 bg-blue-50 rounded">
+                              <div className="flex items-center">
+                                <FileText className="h-4 w-4 mr-2 text-blue-600" />
+                                <span className="text-sm text-blue-800">{file.name}</span>
+                              </div>
+                              <Button variant="outline" size="sm" onClick={() => removeCertificateFile(index)}>
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -823,16 +980,30 @@ export default function ConsultantProfilePage() {
 }
 
 
-
 // "use client"
 
 // import { useState } from "react"
-// import { ArrowLeft, Edit, MapPin, Phone, Mail, Star, Award, Briefcase, GraduationCap, DollarSign } from "lucide-react"
+// import {
+//   ArrowLeft,
+//   Edit,
+//   MapPin,
+//   Phone,
+//   Mail,
+//   Star,
+//   Award,
+//   Briefcase,
+//   GraduationCap,
+//   DollarSign,
+//   Save,
+//   X,
+//   Plus,
+// } from "lucide-react"
 // import { Button } from "@/components/ui/button"
 // import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 // import { Badge } from "@/components/ui/badge"
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 // import { Progress } from "@/components/ui/progress"
+// import { Input } from "@/components/ui/input"
 // import Link from "next/link"
 
 // // Simple Header component (inline to avoid import issues)
@@ -851,8 +1022,8 @@ export default function ConsultantProfilePage() {
 //   )
 // }
 
-// // Sample profile data (this would come from your database)
-// const profileData = {
+// // Initial profile data
+// const initialProfileData = {
 //   fullName: "Rutesh Zalavadiya",
 //   email: "rutesh.zalavadiya@email.com",
 //   phoneNumber: "+1 (555) 123-4567",
@@ -909,6 +1080,67 @@ export default function ConsultantProfilePage() {
 
 // export default function ConsultantProfilePage() {
 //   const [isEditing, setIsEditing] = useState(false)
+//   const [profileData, setProfileData] = useState(initialProfileData)
+//   const [tempData, setTempData] = useState(initialProfileData)
+//   const [loading, setLoading] = useState(false)
+
+//   const handleInputChange = (field, value) => {
+//     setTempData((prev) => ({
+//       ...prev,
+//       [field]: value,
+//     }))
+//   }
+
+//   const handleArrayChange = (field, index, value) => {
+//     setTempData((prev) => ({
+//       ...prev,
+//       [field]: prev[field].map((item, i) => (i === index ? value : item)),
+//     }))
+//   }
+
+//   const handleObjectArrayChange = (field, index, subField, value) => {
+//     setTempData((prev) => ({
+//       ...prev,
+//       [field]: prev[field].map((item, i) => (i === index ? { ...item, [subField]: value } : item)),
+//     }))
+//   }
+
+//   const addArrayItem = (field, defaultValue) => {
+//     setTempData((prev) => ({
+//       ...prev,
+//       [field]: [...prev[field], defaultValue],
+//     }))
+//   }
+
+//   const removeArrayItem = (field, index) => {
+//     setTempData((prev) => ({
+//       ...prev,
+//       [field]: prev[field].filter((_, i) => i !== index),
+//     }))
+//   }
+
+//   const handleSave = async () => {
+//     setLoading(true)
+//     try {
+//       // Simulate API call
+//       await new Promise((resolve) => setTimeout(resolve, 1500))
+
+//       setProfileData(tempData)
+//       setIsEditing(false)
+//       alert("Profile updated successfully!")
+//     } catch (error) {
+//       alert("Error updating profile. Please try again.")
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   const handleCancel = () => {
+//     setTempData(profileData)
+//     setIsEditing(false)
+//   }
+
+//   const currentData = isEditing ? tempData : profileData
 
 //   return (
 //     <div className="min-h-screen bg-gray-50">
@@ -932,44 +1164,86 @@ export default function ConsultantProfilePage() {
 //               <CardContent className="p-6 text-center">
 //                 <Avatar className="h-24 w-24 mx-auto mb-4">
 //                   <AvatarImage src="/placeholder.svg?height=96&width=96" />
-//                   <AvatarFallback className="text-2xl">RZ</AvatarFallback>
+//                   <AvatarFallback className="text-2xl">
+//                     {currentData.fullName
+//                       .split(" ")
+//                       .map((n) => n[0])
+//                       .join("")}
+//                   </AvatarFallback>
 //                 </Avatar>
 
-//                 <h1 className="text-2xl font-bold text-gray-900 mb-2">{profileData.fullName}</h1>
-//                 <p className="text-blue-600 font-medium mb-4">{profileData.specialization}</p>
+//                 {isEditing ? (
+//                   <div className="space-y-3 mb-4">
+//                     <Input
+//                       value={tempData.fullName}
+//                       onChange={(e) => handleInputChange("fullName", e.target.value)}
+//                       className="text-center font-bold"
+//                       placeholder="Full Name"
+//                     />
+//                     <Input
+//                       value={tempData.specialization}
+//                       onChange={(e) => handleInputChange("specialization", e.target.value)}
+//                       className="text-center text-blue-600"
+//                       placeholder="Specialization"
+//                     />
+//                   </div>
+//                 ) : (
+//                   <>
+//                     <h1 className="text-2xl font-bold text-gray-900 mb-2">{currentData.fullName}</h1>
+//                     <p className="text-blue-600 font-medium mb-4">{currentData.specialization}</p>
+//                   </>
+//                 )}
 
 //                 <div className="flex items-center justify-center gap-2 mb-4">
 //                   <div className="flex items-center">
 //                     {[1, 2, 3, 4, 5].map((star) => (
 //                       <Star
 //                         key={star}
-//                         className={`h-4 w-4 ${star <= Math.floor(profileData.rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+//                         className={`h-4 w-4 ${star <= Math.floor(currentData.rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
 //                       />
 //                     ))}
 //                   </div>
-//                   <span className="font-medium">{profileData.rating}</span>
-//                   <span className="text-gray-500">({profileData.totalProjects} projects)</span>
+//                   <span className="font-medium">{currentData.rating}</span>
+//                   <span className="text-gray-500">({currentData.totalProjects} projects)</span>
 //                 </div>
 
 //                 <div className="grid grid-cols-2 gap-4 mb-6">
 //                   <div className="text-center">
-//                     <div className="text-2xl font-bold text-blue-600">{profileData.successRate}%</div>
+//                     <div className="text-2xl font-bold text-blue-600">{currentData.successRate}%</div>
 //                     <div className="text-sm text-gray-600">Success Rate</div>
 //                   </div>
 //                   <div className="text-center">
-//                     <div className="text-2xl font-bold text-blue-600">{profileData.yearsOfExperience}</div>
+//                     {isEditing ? (
+//                       <Input
+//                         type="number"
+//                         value={tempData.yearsOfExperience}
+//                         onChange={(e) => handleInputChange("yearsOfExperience", e.target.value)}
+//                         className="text-center text-2xl font-bold text-blue-600 h-8 w-16 mx-auto"
+//                       />
+//                     ) : (
+//                       <div className="text-2xl font-bold text-blue-600">{currentData.yearsOfExperience}</div>
+//                     )}
 //                     <div className="text-sm text-gray-600">Years Experience</div>
 //                   </div>
 //                 </div>
 
-//                 <Button
-//                   onClick={() => setIsEditing(!isEditing)}
-//                   className="w-full"
-//                   variant={isEditing ? "outline" : "default"}
-//                 >
-//                   <Edit className="h-4 w-4 mr-2" />
-//                   {isEditing ? "Cancel Edit" : "Edit Profile"}
-//                 </Button>
+//                 {isEditing ? (
+//                   <div className="flex gap-2">
+//                     <Button onClick={handleSave} disabled={loading} className="flex-1">
+//                       <Save className="h-4 w-4 mr-2" />
+//                       {loading ? "Saving..." : "Save"}
+//                     </Button>
+//                     <Button onClick={handleCancel} variant="outline" className="flex-1">
+//                       <X className="h-4 w-4 mr-2" />
+//                       Cancel
+//                     </Button>
+//                   </div>
+//                 ) : (
+//                   <Button onClick={() => setIsEditing(true)} className="w-full">
+//                     <Edit className="h-4 w-4 mr-2" />
+//                     Edit Profile
+//                   </Button>
+//                 )}
 //               </CardContent>
 //             </Card>
 
@@ -982,18 +1256,50 @@ export default function ConsultantProfilePage() {
 //                 </CardTitle>
 //               </CardHeader>
 //               <CardContent className="space-y-3">
-//                 <div className="flex items-center">
-//                   <Mail className="h-4 w-4 mr-3 text-gray-500" />
-//                   <span className="text-sm">{profileData.email}</span>
-//                 </div>
-//                 <div className="flex items-center">
-//                   <Phone className="h-4 w-4 mr-3 text-gray-500" />
-//                   <span className="text-sm">{profileData.phoneNumber}</span>
-//                 </div>
-//                 <div className="flex items-center">
-//                   <MapPin className="h-4 w-4 mr-3 text-gray-500" />
-//                   <span className="text-sm">{profileData.location}</span>
-//                 </div>
+//                 {isEditing ? (
+//                   <div className="space-y-3">
+//                     <div>
+//                       <label className="block text-xs text-gray-500 mb-1">Email</label>
+//                       <Input
+//                         type="email"
+//                         value={tempData.email}
+//                         onChange={(e) => handleInputChange("email", e.target.value)}
+//                         className="text-sm"
+//                       />
+//                     </div>
+//                     <div>
+//                       <label className="block text-xs text-gray-500 mb-1">Phone</label>
+//                       <Input
+//                         value={tempData.phoneNumber}
+//                         onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+//                         className="text-sm"
+//                       />
+//                     </div>
+//                     <div>
+//                       <label className="block text-xs text-gray-500 mb-1">Location</label>
+//                       <Input
+//                         value={tempData.location}
+//                         onChange={(e) => handleInputChange("location", e.target.value)}
+//                         className="text-sm"
+//                       />
+//                     </div>
+//                   </div>
+//                 ) : (
+//                   <>
+//                     <div className="flex items-center">
+//                       <Mail className="h-4 w-4 mr-3 text-gray-500" />
+//                       <span className="text-sm">{currentData.email}</span>
+//                     </div>
+//                     <div className="flex items-center">
+//                       <Phone className="h-4 w-4 mr-3 text-gray-500" />
+//                       <span className="text-sm">{currentData.phoneNumber}</span>
+//                     </div>
+//                     <div className="flex items-center">
+//                       <MapPin className="h-4 w-4 mr-3 text-gray-500" />
+//                       <span className="text-sm">{currentData.location}</span>
+//                     </div>
+//                   </>
+//                 )}
 //               </CardContent>
 //             </Card>
 
@@ -1006,9 +1312,9 @@ export default function ConsultantProfilePage() {
 //                 <div className="space-y-2">
 //                   <div className="flex justify-between">
 //                     <span className="text-sm font-medium">Complete your profile</span>
-//                     <span className="text-sm font-bold">{profileData.profileCompletion}%</span>
+//                     <span className="text-sm font-bold">{currentData.profileCompletion}%</span>
 //                   </div>
-//                   <Progress value={profileData.profileCompletion} className="h-2" />
+//                   <Progress value={currentData.profileCompletion} className="h-2" />
 //                 </div>
 //               </CardContent>
 //             </Card>
@@ -1022,7 +1328,17 @@ export default function ConsultantProfilePage() {
 //                 <CardTitle>About</CardTitle>
 //               </CardHeader>
 //               <CardContent>
-//                 <p className="text-gray-700 leading-relaxed">{profileData.briefBio}</p>
+//                 {isEditing ? (
+//                   <textarea
+//                     value={tempData.briefBio}
+//                     onChange={(e) => handleInputChange("briefBio", e.target.value)}
+//                     rows={4}
+//                     className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     placeholder="Tell us about yourself..."
+//                   />
+//                 ) : (
+//                   <p className="text-gray-700 leading-relaxed">{currentData.briefBio}</p>
+//                 )}
 //               </CardContent>
 //             </Card>
 
@@ -1035,24 +1351,73 @@ export default function ConsultantProfilePage() {
 //                 </CardTitle>
 //               </CardHeader>
 //               <CardContent>
-//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                   <div>
-//                     <label className="text-sm font-medium text-gray-600">Work Type</label>
-//                     <p className="text-gray-900">{profileData.preferredWorkType}</p>
+//                 {isEditing ? (
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-1">Work Type</label>
+//                       <select
+//                         value={tempData.preferredWorkType}
+//                         onChange={(e) => handleInputChange("preferredWorkType", e.target.value)}
+//                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                       >
+//                         <option value="Remote">Remote</option>
+//                         <option value="On-site">On-site</option>
+//                         <option value="Hybrid">Hybrid</option>
+//                       </select>
+//                     </div>
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-1">Work Mode</label>
+//                       <select
+//                         value={tempData.preferredWorkMode}
+//                         onChange={(e) => handleInputChange("preferredWorkMode", e.target.value)}
+//                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                       >
+//                         <option value="Full-time">Full-time</option>
+//                         <option value="Part-time">Part-time</option>
+//                         <option value="Contract">Contract</option>
+//                       </select>
+//                     </div>
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-1">Working Hours</label>
+//                       <Input
+//                         value={tempData.preferredWorkingHours}
+//                         onChange={(e) => handleInputChange("preferredWorkingHours", e.target.value)}
+//                         placeholder="e.g., 9 AM - 6 PM PST"
+//                       />
+//                     </div>
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-1">Consulting Mode</label>
+//                       <select
+//                         value={tempData.consultingMode}
+//                         onChange={(e) => handleInputChange("consultingMode", e.target.value)}
+//                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                       >
+//                         <option value="Hybrid">Hybrid</option>
+//                         <option value="Advisory">Advisory</option>
+//                         <option value="Implementation">Implementation</option>
+//                       </select>
+//                     </div>
 //                   </div>
-//                   <div>
-//                     <label className="text-sm font-medium text-gray-600">Work Mode</label>
-//                     <p className="text-gray-900">{profileData.preferredWorkMode}</p>
+//                 ) : (
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                     <div>
+//                       <label className="text-sm font-medium text-gray-600">Work Type</label>
+//                       <p className="text-gray-900">{currentData.preferredWorkType}</p>
+//                     </div>
+//                     <div>
+//                       <label className="text-sm font-medium text-gray-600">Work Mode</label>
+//                       <p className="text-gray-900">{currentData.preferredWorkMode}</p>
+//                     </div>
+//                     <div>
+//                       <label className="text-sm font-medium text-gray-600">Working Hours</label>
+//                       <p className="text-gray-900">{currentData.preferredWorkingHours}</p>
+//                     </div>
+//                     <div>
+//                       <label className="text-sm font-medium text-gray-600">Consulting Mode</label>
+//                       <p className="text-gray-900">{currentData.consultingMode}</p>
+//                     </div>
 //                   </div>
-//                   <div>
-//                     <label className="text-sm font-medium text-gray-600">Working Hours</label>
-//                     <p className="text-gray-900">{profileData.preferredWorkingHours}</p>
-//                   </div>
-//                   <div>
-//                     <label className="text-sm font-medium text-gray-600">Consulting Mode</label>
-//                     <p className="text-gray-900">{profileData.consultingMode}</p>
-//                   </div>
-//                 </div>
+//                 )}
 //               </CardContent>
 //             </Card>
 
@@ -1064,33 +1429,131 @@ export default function ConsultantProfilePage() {
 //               <CardContent className="space-y-4">
 //                 <div>
 //                   <h4 className="font-medium mb-2">Primary Skills</h4>
-//                   <div className="flex flex-wrap gap-2">
-//                     {profileData.primarySkills.map((skill, index) => (
-//                       <Badge key={index} variant="secondary">
-//                         {skill}
-//                       </Badge>
-//                     ))}
-//                   </div>
+//                   {isEditing ? (
+//                     <div className="space-y-2">
+//                       {tempData.primarySkills.map((skill, index) => (
+//                         <div key={index} className="flex gap-2">
+//                           <Input
+//                             value={skill}
+//                             onChange={(e) => handleArrayChange("primarySkills", index, e.target.value)}
+//                             className="flex-1"
+//                             placeholder="Enter skill"
+//                           />
+//                           <Button
+//                             type="button"
+//                             variant="outline"
+//                             size="sm"
+//                             onClick={() => removeArrayItem("primarySkills", index)}
+//                           >
+//                             <X className="h-4 w-4" />
+//                           </Button>
+//                         </div>
+//                       ))}
+//                       <Button
+//                         type="button"
+//                         variant="outline"
+//                         size="sm"
+//                         onClick={() => addArrayItem("primarySkills", "")}
+//                       >
+//                         <Plus className="h-4 w-4 mr-2" />
+//                         Add Skill
+//                       </Button>
+//                     </div>
+//                   ) : (
+//                     <div className="flex flex-wrap gap-2">
+//                       {currentData.primarySkills.map((skill, index) => (
+//                         <Badge key={index} variant="secondary">
+//                           {skill}
+//                         </Badge>
+//                       ))}
+//                     </div>
+//                   )}
 //                 </div>
+
 //                 <div>
 //                   <h4 className="font-medium mb-2">Available Services</h4>
-//                   <div className="flex flex-wrap gap-2">
-//                     {profileData.availableServices.map((service, index) => (
-//                       <Badge key={index} variant="outline">
-//                         {service}
-//                       </Badge>
-//                     ))}
-//                   </div>
+//                   {isEditing ? (
+//                     <div className="space-y-2">
+//                       {tempData.availableServices.map((service, index) => (
+//                         <div key={index} className="flex gap-2">
+//                           <Input
+//                             value={service}
+//                             onChange={(e) => handleArrayChange("availableServices", index, e.target.value)}
+//                             className="flex-1"
+//                             placeholder="Enter service"
+//                           />
+//                           <Button
+//                             type="button"
+//                             variant="outline"
+//                             size="sm"
+//                             onClick={() => removeArrayItem("availableServices", index)}
+//                           >
+//                             <X className="h-4 w-4" />
+//                           </Button>
+//                         </div>
+//                       ))}
+//                       <Button
+//                         type="button"
+//                         variant="outline"
+//                         size="sm"
+//                         onClick={() => addArrayItem("availableServices", "")}
+//                       >
+//                         <Plus className="h-4 w-4 mr-2" />
+//                         Add Service
+//                       </Button>
+//                     </div>
+//                   ) : (
+//                     <div className="flex flex-wrap gap-2">
+//                       {currentData.availableServices.map((service, index) => (
+//                         <Badge key={index} variant="outline">
+//                           {service}
+//                         </Badge>
+//                       ))}
+//                     </div>
+//                   )}
 //                 </div>
+
 //                 <div>
 //                   <h4 className="font-medium mb-2">Languages</h4>
-//                   <div className="flex flex-wrap gap-2">
-//                     {profileData.languagesSpoken.map((language, index) => (
-//                       <Badge key={index} variant="secondary">
-//                         {language}
-//                       </Badge>
-//                     ))}
-//                   </div>
+//                   {isEditing ? (
+//                     <div className="space-y-2">
+//                       {tempData.languagesSpoken.map((language, index) => (
+//                         <div key={index} className="flex gap-2">
+//                           <Input
+//                             value={language}
+//                             onChange={(e) => handleArrayChange("languagesSpoken", index, e.target.value)}
+//                             className="flex-1"
+//                             placeholder="Enter language"
+//                           />
+//                           <Button
+//                             type="button"
+//                             variant="outline"
+//                             size="sm"
+//                             onClick={() => removeArrayItem("languagesSpoken", index)}
+//                           >
+//                             <X className="h-4 w-4" />
+//                           </Button>
+//                         </div>
+//                       ))}
+//                       <Button
+//                         type="button"
+//                         variant="outline"
+//                         size="sm"
+//                         onClick={() => addArrayItem("languagesSpoken", "")}
+//                       >
+//                         <Plus className="h-4 w-4 mr-2" />
+//                         Add Language
+//                       </Button>
+//                     </div>
+//                   ) : (
+//                     <div className="flex flex-wrap gap-2">
+//                       {currentData.languagesSpoken.map((language, index) => (
+//                         <Badge key={index} variant="secondary">
+//                           {language}
+//                         </Badge>
+//                       ))}
+//                     </div>
+//                   )}
 //                 </div>
 //               </CardContent>
 //             </Card>
@@ -1098,18 +1561,68 @@ export default function ConsultantProfilePage() {
 //             {/* Education */}
 //             <Card>
 //               <CardHeader>
-//                 <CardTitle className="flex items-center">
-//                   <GraduationCap className="h-5 w-5 mr-2" />
-//                   Education
+//                 <CardTitle className="flex items-center justify-between">
+//                   <div className="flex items-center">
+//                     <GraduationCap className="h-5 w-5 mr-2" />
+//                     Education
+//                   </div>
+//                   {isEditing && (
+//                     <Button
+//                       type="button"
+//                       variant="outline"
+//                       size="sm"
+//                       onClick={() => addArrayItem("education", { degree: "", institution: "", year: "" })}
+//                     >
+//                       <Plus className="h-4 w-4 mr-2" />
+//                       Add Education
+//                     </Button>
+//                   )}
 //                 </CardTitle>
 //               </CardHeader>
 //               <CardContent>
 //                 <div className="space-y-4">
-//                   {profileData.education.map((edu, index) => (
+//                   {currentData.education.map((edu, index) => (
 //                     <div key={index} className="border-l-4 border-blue-500 pl-4">
-//                       <h4 className="font-medium text-gray-900">{edu.degree}</h4>
-//                       <p className="text-blue-600">{edu.institution}</p>
-//                       <p className="text-sm text-gray-600">{edu.year}</p>
+//                       {isEditing ? (
+//                         <div className="space-y-2">
+//                           <div className="flex justify-between items-start">
+//                             <div className="flex-1 space-y-2">
+//                               <Input
+//                                 placeholder="Degree"
+//                                 value={edu.degree}
+//                                 onChange={(e) => handleObjectArrayChange("education", index, "degree", e.target.value)}
+//                               />
+//                               <Input
+//                                 placeholder="Institution"
+//                                 value={edu.institution}
+//                                 onChange={(e) =>
+//                                   handleObjectArrayChange("education", index, "institution", e.target.value)
+//                                 }
+//                               />
+//                               <Input
+//                                 placeholder="Year"
+//                                 value={edu.year}
+//                                 onChange={(e) => handleObjectArrayChange("education", index, "year", e.target.value)}
+//                               />
+//                             </div>
+//                             <Button
+//                               type="button"
+//                               variant="outline"
+//                               size="sm"
+//                               onClick={() => removeArrayItem("education", index)}
+//                               className="ml-2"
+//                             >
+//                               <X className="h-4 w-4" />
+//                             </Button>
+//                           </div>
+//                         </div>
+//                       ) : (
+//                         <>
+//                           <h4 className="font-medium text-gray-900">{edu.degree}</h4>
+//                           <p className="text-blue-600">{edu.institution}</p>
+//                           <p className="text-sm text-gray-600">{edu.year}</p>
+//                         </>
+//                       )}
 //                     </div>
 //                   ))}
 //                 </div>
@@ -1119,18 +1632,72 @@ export default function ConsultantProfilePage() {
 //             {/* Professional Experience */}
 //             <Card>
 //               <CardHeader>
-//                 <CardTitle className="flex items-center">
-//                   <Briefcase className="h-5 w-5 mr-2" />
-//                   Professional Experience
+//                 <CardTitle className="flex items-center justify-between">
+//                   <div className="flex items-center">
+//                     <Briefcase className="h-5 w-5 mr-2" />
+//                     Professional Experience
+//                   </div>
+//                   {isEditing && (
+//                     <Button
+//                       type="button"
+//                       variant="outline"
+//                       size="sm"
+//                       onClick={() => addArrayItem("professionalExperience", { role: "", company: "", years: "" })}
+//                     >
+//                       <Plus className="h-4 w-4 mr-2" />
+//                       Add Experience
+//                     </Button>
+//                   )}
 //                 </CardTitle>
 //               </CardHeader>
 //               <CardContent>
 //                 <div className="space-y-4">
-//                   {profileData.professionalExperience.map((exp, index) => (
+//                   {currentData.professionalExperience.map((exp, index) => (
 //                     <div key={index} className="border-l-4 border-green-500 pl-4">
-//                       <h4 className="font-medium text-gray-900">{exp.role}</h4>
-//                       <p className="text-green-600">{exp.company}</p>
-//                       <p className="text-sm text-gray-600">{exp.years}</p>
+//                       {isEditing ? (
+//                         <div className="space-y-2">
+//                           <div className="flex justify-between items-start">
+//                             <div className="flex-1 space-y-2">
+//                               <Input
+//                                 placeholder="Role"
+//                                 value={exp.role}
+//                                 onChange={(e) =>
+//                                   handleObjectArrayChange("professionalExperience", index, "role", e.target.value)
+//                                 }
+//                               />
+//                               <Input
+//                                 placeholder="Company"
+//                                 value={exp.company}
+//                                 onChange={(e) =>
+//                                   handleObjectArrayChange("professionalExperience", index, "company", e.target.value)
+//                                 }
+//                               />
+//                               <Input
+//                                 placeholder="Years (e.g., 2020-Present)"
+//                                 value={exp.years}
+//                                 onChange={(e) =>
+//                                   handleObjectArrayChange("professionalExperience", index, "years", e.target.value)
+//                                 }
+//                               />
+//                             </div>
+//                             <Button
+//                               type="button"
+//                               variant="outline"
+//                               size="sm"
+//                               onClick={() => removeArrayItem("professionalExperience", index)}
+//                               className="ml-2"
+//                             >
+//                               <X className="h-4 w-4" />
+//                             </Button>
+//                           </div>
+//                         </div>
+//                       ) : (
+//                         <>
+//                           <h4 className="font-medium text-gray-900">{exp.role}</h4>
+//                           <p className="text-green-600">{exp.company}</p>
+//                           <p className="text-sm text-gray-600">{exp.years}</p>
+//                         </>
+//                       )}
 //                     </div>
 //                   ))}
 //                 </div>
@@ -1140,20 +1707,51 @@ export default function ConsultantProfilePage() {
 //             {/* Certifications */}
 //             <Card>
 //               <CardHeader>
-//                 <CardTitle className="flex items-center">
-//                   <Award className="h-5 w-5 mr-2" />
-//                   Certifications & Licenses
+//                 <CardTitle className="flex items-center justify-between">
+//                   <div className="flex items-center">
+//                     <Award className="h-5 w-5 mr-2" />
+//                     Certifications & Licenses
+//                   </div>
+//                   {isEditing && (
+//                     <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem("certificates", "")}>
+//                       <Plus className="h-4 w-4 mr-2" />
+//                       Add Certificate
+//                     </Button>
+//                   )}
 //                 </CardTitle>
 //               </CardHeader>
 //               <CardContent>
-//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-//                   {profileData.certificates.map((cert, index) => (
-//                     <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
-//                       <Award className="h-4 w-4 mr-2 text-yellow-600" />
-//                       <span className="text-sm">{cert}</span>
-//                     </div>
-//                   ))}
-//                 </div>
+//                 {isEditing ? (
+//                   <div className="space-y-2">
+//                     {tempData.certificates.map((cert, index) => (
+//                       <div key={index} className="flex gap-2">
+//                         <Input
+//                           value={cert}
+//                           onChange={(e) => handleArrayChange("certificates", index, e.target.value)}
+//                           className="flex-1"
+//                           placeholder="Enter certificate name"
+//                         />
+//                         <Button
+//                           type="button"
+//                           variant="outline"
+//                           size="sm"
+//                           onClick={() => removeArrayItem("certificates", index)}
+//                         >
+//                           <X className="h-4 w-4" />
+//                         </Button>
+//                       </div>
+//                     ))}
+//                   </div>
+//                 ) : (
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+//                     {currentData.certificates.map((cert, index) => (
+//                       <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
+//                         <Award className="h-4 w-4 mr-2 text-yellow-600" />
+//                         <span className="text-sm">{cert}</span>
+//                       </div>
+//                     ))}
+//                   </div>
+//                 )}
 //               </CardContent>
 //             </Card>
 
@@ -1166,16 +1764,37 @@ export default function ConsultantProfilePage() {
 //                 </CardTitle>
 //               </CardHeader>
 //               <CardContent>
-//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                   <div>
-//                     <label className="text-sm font-medium text-gray-600">Pricing Structure</label>
-//                     <p className="text-2xl font-bold text-green-600">{profileData.pricingStructure}</p>
+//                 {isEditing ? (
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-1">Pricing Structure</label>
+//                       <Input
+//                         value={tempData.pricingStructure}
+//                         onChange={(e) => handleInputChange("pricingStructure", e.target.value)}
+//                         placeholder="e.g., $150/hour"
+//                       />
+//                     </div>
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-1">Payment Preferences</label>
+//                       <Input
+//                         value={tempData.paymentPreferences}
+//                         onChange={(e) => handleInputChange("paymentPreferences", e.target.value)}
+//                         placeholder="e.g., Bank Transfer, PayPal"
+//                       />
+//                     </div>
 //                   </div>
-//                   <div>
-//                     <label className="text-sm font-medium text-gray-600">Payment Preferences</label>
-//                     <p className="text-gray-900">{profileData.paymentPreferences}</p>
+//                 ) : (
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                     <div>
+//                       <label className="text-sm font-medium text-gray-600">Pricing Structure</label>
+//                       <p className="text-2xl font-bold text-green-600">{currentData.pricingStructure}</p>
+//                     </div>
+//                     <div>
+//                       <label className="text-sm font-medium text-gray-600">Payment Preferences</label>
+//                       <p className="text-gray-900">{currentData.paymentPreferences}</p>
+//                     </div>
 //                   </div>
-//                 </div>
+//                 )}
 //               </CardContent>
 //             </Card>
 //           </div>
@@ -1184,3 +1803,6 @@ export default function ConsultantProfilePage() {
 //     </div>
 //   )
 // }
+
+
+
