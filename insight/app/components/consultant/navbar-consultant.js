@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import ClientNotificationDropdown from './ClientNotificationDropdown';
+
 import { Input } from "@/components/ui/input";
 
 export default function Header() {
@@ -39,17 +41,17 @@ export default function Header() {
                     onClick={() => toggleDropdown("search")}
                     className="flex items-center space-x-1 px-2 py-1 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 group"
                   >
-                    <span>Search Consultant</span>
+                    <span>Search Client</span>
                     <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isDropdownOpen === "search" ? "rotate-180" : ""}`} />
                   </button>
                 </DropdownMenuTrigger>
                 {isDropdownOpen === "search" && (
                   <DropdownMenuContent className="w-56 z-50 mt-2 rounded-xl border py-2">
-                    <DropdownMenuItem>Browse Consultants</DropdownMenuItem>
+                    <DropdownMenuItem>Browse Client</DropdownMenuItem>
                     <DropdownMenuItem>Trending Skills</DropdownMenuItem>
                     <DropdownMenuItem>Top Rated</DropdownMenuItem>
-                    <DropdownMenuItem>Saved Consultants</DropdownMenuItem>
-                    <DropdownMenuItem>Verified Consultants</DropdownMenuItem>
+                    <DropdownMenuItem>Saved Client</DropdownMenuItem>
+                    <DropdownMenuItem>Verified Client</DropdownMenuItem>
                   </DropdownMenuContent>
                 )}
               </DropdownMenu>
@@ -94,12 +96,10 @@ export default function Header() {
 
           <div className="flex items-center space-x-3">
             <div className="hidden sm:flex items-center space-x-3">
-              <Button variant="ghost" size="icon" className="relative hover:bg-blue-50 hover:text-blue-600">
-                <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  3
-                </span>
-              </Button>
+              
+                           <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
+                               <ClientNotificationDropdown />
+                           </button>
 
               <Link href="/client/message">
                 <Button variant="ghost" className="flex items-center space-x-2 relative hover:bg-blue-50 hover:text-blue-600">
@@ -138,7 +138,7 @@ export default function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>Document Management</DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
-                <DropdownMenuItem>Saved Consultants</DropdownMenuItem>
+                <DropdownMenuItem>Saved Client</DropdownMenuItem>
                 <DropdownMenuItem>Preferences</DropdownMenuItem>
                 <DropdownMenuItem className="text-red-600">Sign Out</DropdownMenuItem>
               </DropdownMenuContent>
