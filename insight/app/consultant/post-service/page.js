@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { X, DollarSign, MapPin, Tag, Star, Award, Briefcase, ArrowLeft } from "lucide-react"
+import Navbar from "@/app/components/consultant/navbar-consultant"
 
 const PostService = () => {
   const router = useRouter()
@@ -160,7 +161,7 @@ const PostService = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b px-6 py-4">
+      {/* <div className="bg-white border-b px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
@@ -178,7 +179,8 @@ const PostService = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Navbar />
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">

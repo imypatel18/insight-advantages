@@ -118,7 +118,7 @@ const ConsultantPreferences = () => {
           Get personalized project recommendations based on your preferences. Premium feature with advanced filtering.
         </p>
         <button
-          onClick={() => router.push("/pricing")}
+          onClick={() => router.push("/consultant/pricing")}
           className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 font-medium"
         >
           Upgrade to Premium
