@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Header from "../../components/header"
+import Navbar from "../../components/consultant/navbar-consultant"
 import PromotionalBanner from "../../components/promotional-banner"
 import Sidebar from "../../components/sidebar"
 import ProjectCard from "../../components/project-card"
@@ -155,7 +156,8 @@ const ConsultantDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      {/* <Header /> */}
+      <Navbar />
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
