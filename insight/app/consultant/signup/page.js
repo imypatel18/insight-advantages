@@ -27,22 +27,17 @@ export default function SignUpPage() {
     }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+  // Save formData to localStorage
+  localStorage.setItem('consultantSignupData', JSON.stringify(formData))
 
-    // Redirect to registration page with form data
-    const query = new URLSearchParams({
-      fullName: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-    }).toString()
-    
-    router.push(`/consultant/register?${query}`)
-    setIsLoading(false)
-  }
+  // Redirect
+  router.push('/consultant/register')
+  setIsLoading(false)
+}
 
   return (
 <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-100 to-blue-300 flex items-center justify-center p-4">
