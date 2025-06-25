@@ -2,8 +2,7 @@
 
 import React from 'react';
 import PostRequestForm from './post-request-client';
-// import BackToHomeButton from '@/app/components/BackToClientHome';
-import ClientNavbar from '../../../../app/components/navbar-client';
+import ClientNavbar from '@/app/components/client/navbar-client';
 
 export default function PostRequestPage() {
   return (
