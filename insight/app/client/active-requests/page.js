@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ActiveRequests from './active-requests-client';
-import ClientNavbar from '../../../../app/components/navbar-client';
+import ClientNavbar from '@/app/components/client/navbar-client';
 
 export default function ActiveRequestsPage() {
   return (

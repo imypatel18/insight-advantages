@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       .query('SELECT * FROM Clients WHERE Email = @email');
 
     if (result.recordset.length === 0) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+        return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const user = result.recordset[0];

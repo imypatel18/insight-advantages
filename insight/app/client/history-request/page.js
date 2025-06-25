@@ -2,7 +2,7 @@
 
 import React from 'react';
 import RequestHistory from './request-history-client';
-import ClientNavbar from '../../../../app/components/navbar-client';
+import ClientNavbar from '@/app/components/client/navbar-client';
 
 export default function RequestHistoryPage() {
   return (
