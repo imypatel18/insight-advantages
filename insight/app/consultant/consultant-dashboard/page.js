@@ -25,6 +25,7 @@ import {
   Crown,
   Plus,
 } from "lucide-react"
+import Navbar from "../../components/consultant/navbar-consultant"
 import DocumentVerification from "./DocumentVerification"
 
 const ConsultantDashboard = () => {
@@ -391,6 +392,7 @@ const ConsultantDashboard = () => {
     const client = clients[project.clientId]
 
     return (
+      
       <div className="border rounded-lg p-6 bg-white hover:shadow-md transition-shadow">
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
@@ -538,7 +540,7 @@ const ConsultantDashboard = () => {
 
         <button
 
-          onClick={() => router.push("/pricing")}
+          onClick={() => router.push("/consultant/pricing")}
 
           className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 font-medium"
 
@@ -938,116 +940,8 @@ const ConsultantDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <h1 className="text-2xl font-bold text-blue-600">ConsultPro</h1>
-            <nav className="flex items-center gap-6">
-              <button className="text-gray-700 hover:text-blue-600">Find Projects</button>
-              <button className="text-gray-700 hover:text-blue-600">My Work</button>
-              <button className="text-gray-700 hover:text-blue-600">Reports</button>
-              <button className="text-gray-700 hover:text-blue-600">Messages</button>
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                placeholder="Search for projects"
-                className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <button className="text-gray-700">Projects</button>
-            <div className="relative">
-              <button
-                onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-white text-sm hover:bg-gray-700"
-              >
-                RZ
-              </button>
-
-              {/* Profile Dropdown */}
-              {isProfileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
-                  <div className="p-4 border-b">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-white font-medium">
-                        RZ
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">Rutesh Zalavadiya</h3>
-                        <p className="text-sm text-gray-600">Freelancer</p>
-                      </div>
-                    </div>
-                    <div className="mt-3">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Online for messages</span>
-                        <div className="w-8 h-4 bg-blue-600 rounded-full relative">
-                          <div className="w-3 h-3 bg-white rounded-full absolute right-0.5 top-0.5"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="py-2">
-                    <button
-                      onClick={handleViewProfile}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3"
-                    >
-                      <User className="h-4 w-4" />
-                      Your profile
-                    </button>
-                    <button className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3">
-                      <BarChart3 className="h-4 w-4" />
-                      Stats and trends
-                    </button>
-                    <button className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3">
-                      <CreditCard className="h-4 w-4" />
-                      Membership plan
-                    </button>
-                    <button
-                      onClick={() => {
-                        router.push("/pricing")
-                        setIsProfileDropdownOpen(false)
-                      }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3"
-                    >
-                      <CreditCard className="h-4 w-4" />
-                      Subscription
-                    </button>
-                    <button className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3">
-                      <Users className="h-4 w-4" />
-                      Connects
-                    </button>
-                    <div className="px-4 py-2 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Settings className="h-4 w-4" />
-                        Theme: Light
-                      </div>
-                      <ChevronDown className="h-4 w-4" />
-                    </div>
-                    <button className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3">
-                      <Settings className="h-4 w-4" />
-                      Account settings
-                    </button>
-                  </div>
-
-                  <div className="border-t py-2">
-                    <button
-                      onClick={handleLogout}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3 text-red-600"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Log out
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
+   
+      <Navbar />
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Main Content */}
@@ -1061,7 +955,7 @@ const ConsultantDashboard = () => {
                     Premium consultants get 3x more project invitations and higher client response rates.
                   </p>
                   <button
-                    onClick={() => router.push("/pricing")}
+                    onClick={() => router.push("/consultant/pricing")}
                     className="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100"
                   >
                     Upgrade Now
@@ -2239,7 +2133,7 @@ export default ConsultantDashboard
 //                     </button>
 //                     <button
 //                       onClick={() => {
-//                         router.push("/pricing")
+//                         router.push("/consultant/pricing")
 //                         setIsProfileDropdownOpen(false)
 //                       }}
 //                       className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3"
@@ -2293,7 +2187,7 @@ export default ConsultantDashboard
 //                     Premium consultants get 3x more project invitations and higher client response rates.
 //                   </p>
 //                   <button
-//                     onClick={() => router.push("/pricing")}
+//                     onClick={() => router.push("/consultant/pricing")}
 //                     className="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100"
 //                   >
 //                     Upgrade Now
@@ -3540,7 +3434,7 @@ export default ConsultantDashboard
 //                     </button>
 //                     <button
 //                       onClick={() => {
-//                         router.push("/pricing")
+//                         router.push("/consultant/pricing")
 //                         setIsProfileDropdownOpen(false)
 //                       }}
 //                       className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-3"
@@ -3594,7 +3488,7 @@ export default ConsultantDashboard
 //                     Premium consultants get 3x more project invitations and higher client response rates.
 //                   </p>
 //                   <button
-//                     onClick={() => router.push("/pricing")}
+//                     onClick={() => router.push("/consultant/pricing")}
 //                     className="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100"
 //                   >
 //                     Upgrade Now

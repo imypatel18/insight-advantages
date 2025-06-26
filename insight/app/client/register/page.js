@@ -1,6 +1,6 @@
 "use client"
-
-import React, { useState } from 'react';
+  import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Eye, EyeOff, User, Building, MapPin, Phone, Mail, Lock, Globe, Users, Briefcase, MessageSquare } from 'lucide-react';
 
 export default function ClientRegistrationForm() {
@@ -24,6 +24,22 @@ export default function ClientRegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+const router = useRouter();
+
+   useEffect(() => {
+    const saved = localStorage.getItem('clientSignupData');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setFormData((prev) => ({
+        ...prev,
+        fullName: `${parsed.firstName} ${parsed.lastName}`,
+        email: parsed.email,
+        password: parsed.password,
+        confirmPassword: parsed.password
+      }));
+    }
+  }, []);
+
 
   const industries = [
     'Healthcare', 'Education', 'Technology', 'Finance', 'Manufacturing', 
@@ -89,12 +105,52 @@ export default function ClientRegistrationForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log('Form submitted:', formData);
-      alert('Registration successful! (This is a demo)');
+const handleSubmit = async () => {
+  
+  if (!validateForm()) return;
+router.push('/client'); // Redirect to dashboard
+  try {
+    const res = await fetch('/api/register-client', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert('🎉 Registration successful!');
+      // ✅ Reset form after success
+      setFormData({
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        companyName: '',
+        companyWebsite: '',
+        industry: '',
+        companySize: '',
+        location: '',
+        role: '',
+        useCase: '',
+        phoneNumber: '',
+        hearAboutUs: '',
+        acceptTerms: false
+      });
+                  router.push('/client'); // Redirect to dashboard
+
+    } else {
+                  
+
+      alert(data.error || '❌ Registration failed. Please try again.');
     }
-  };
+  } catch (err) {
+    console.error('Client registration failed:', err);
+    alert('🚨 Server error. Please try again later.');
+  }
+};
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-100 to-blue-300 flex items-center justify-center p-4">

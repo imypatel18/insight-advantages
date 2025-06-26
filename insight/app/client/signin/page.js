@@ -8,11 +8,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   })
@@ -31,30 +29,38 @@ export default function SignUpPage() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const res = await fetch('/api/login-client', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
 
-    // Redirect to registration page with form data
-    const query = new URLSearchParams({
-      fullName: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-    }).toString()
-    
-    router.push('/client')
+      const data = await res.json()
+
+      if (res.ok) {
+        router.push('/client') // ✅ Redirect after login
+      } else {
+        alert(data.error || 'Login failed')
+      }
+    } catch (err) {
+      console.error('Login request failed:', err)
+      alert('An error occurred. Please try again.')
+    }
+
     setIsLoading(false)
   }
 
   return (
-<div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-100 to-blue-300 flex items-center justify-center p-4">
-      {/* Background decorative elements */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-100 to-blue-300 flex items-center justify-center p-4">
+      {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-24 h-24 bg-indigo-200 rounded-full opacity-25 animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-blue-300 rounded-full opacity-15 animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full opacity-20 animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-24 h-24 bg-indigo-200 rounded-full opacity-25 animate-pulse delay-1000" />
+        <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-blue-300 rounded-full opacity-15 animate-pulse delay-500" />
       </div>
 
       <div className="relative w-full max-w-md">
-        {/* Back button */}
         <Link
           href="/"
           className="inline-flex items-center text-black hover:text-blue-700 mb-6 transition-colors"
@@ -63,30 +69,27 @@ export default function SignUpPage() {
           Back to Home
         </Link>
 
-        {/* Main signup card */}
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
               <div className="text-3xl font-bold text-blue-600 mb-2">ConsultMatch</div>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign In</h1>
-              <p className="text-gray-600">Join thousands of successful consultants</p>
+              <p className="text-gray-600">Welcome back! Log in to your account.</p>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Email */}
-              <div>
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="Email Address *"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
-                />
-              </div>
+              {/* Email */}
+              <Input
+                type="email"
+                name="email"
+                placeholder="Email Address *"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+              />
 
               {/* Password */}
               <div className="relative">
@@ -108,9 +111,7 @@ export default function SignUpPage() {
                 </button>
               </div>
 
-              
-
-              {/* Register Button */}
+              {/* Submit */}
               <Button
                 type="submit"
                 disabled={isLoading}
@@ -119,79 +120,36 @@ export default function SignUpPage() {
                 {isLoading ? (
                   <div className="flex items-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Creating Account...
+                    Signing In...
                   </div>
                 ) : (
                   "Sign In"
                 )}
               </Button>
 
-              {/* Sign in link */}
+              {/* Register link */}
               <div className="text-center">
                 <p className="text-gray-600">
-                  New User Register?{" "}
+                  New user?{" "}
                   <Link href="/client/signup" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
-                    Sign up
+                    Create an account
                   </Link>
                 </p>
               </div>
             </form>
 
-            {/* Terms and Privacy */}
-            <div className="mt-6 text-center">
-              <p className="text-xs text-gray-500">
-                By signing in, you agree to our{" "}
-                <Link href="/terms" className="text-blue-600 hover:underline">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="/privacy" className="text-blue-600 hover:underline">
-                  Privacy Policy
-                </Link>
-              </p>
+            <div className="mt-6 text-center text-xs text-gray-500">
+              By signing in, you agree to our{" "}
+              <Link href="/terms" className="text-blue-600 hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="text-blue-600 hover:underline">
+                Privacy Policy
+              </Link>.
             </div>
           </CardContent>
         </Card>
-
-        {/* Additional features */}
-        <div className="mt-8 text-center">
-          <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
-            <div className="flex flex-col items-center">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mb-2">
-                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-              <span>Verified</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">
-                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-              </div>
-              <span>Secure</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mb-2">
-                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <span>Fast Setup</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )
