@@ -61,8 +61,9 @@ export default function SignInPage() {
           <CardContent className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultPro</div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome back</h1>
+      <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent cursor-pointer">
+                ConsultMatch
+              </div>              <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome back</h1>
               <p className="text-gray-600">Sign in to your account</p>
             </div>
 
