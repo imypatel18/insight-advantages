@@ -1,5 +1,5 @@
 "use client"
-
+  import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Eye, EyeOff, User, Building, MapPin, Phone, Mail, Lock, Globe, Users, Briefcase, MessageSquare } from 'lucide-react';
 
@@ -24,6 +24,7 @@ export default function ClientRegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+const router = useRouter();
 
    useEffect(() => {
     const saved = localStorage.getItem('clientSignupData');
@@ -105,8 +106,9 @@ export default function ClientRegistrationForm() {
   };
 
 const handleSubmit = async () => {
+  
   if (!validateForm()) return;
-
+router.push('/client'); // Redirect to dashboard
   try {
     const res = await fetch('/api/register-client', {
       method: 'POST',
@@ -135,7 +137,11 @@ const handleSubmit = async () => {
         hearAboutUs: '',
         acceptTerms: false
       });
+                  router.push('/client'); // Redirect to dashboard
+
     } else {
+                  
+
       alert(data.error || '❌ Registration failed. Please try again.');
     }
   } catch (err) {
