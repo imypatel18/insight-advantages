@@ -134,22 +134,54 @@ export default function ConsultantRegistrationForm() {
     }));
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
-    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
-    if (!formData.location.trim()) newErrors.location = 'Location is required';
-    if (!formData.specialization) newErrors.specialization = 'Specialization is required';
-    if (!formData.yearsOfExperience) newErrors.yearsOfExperience = 'Years of experience is required';
-    if (!formData.primarySkills.trim()) newErrors.primarySkills = 'Primary skills are required';
-    if (!formData.briefBio.trim()) newErrors.briefBio = 'Brief bio is required';
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+const validateForm = () => {
+  const newErrors = {};
+
+  if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
+  if (!formData.email.trim()) newErrors.email = 'Email is required';
+  else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
+  if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
+  if (!formData.location.trim()) newErrors.location = 'Location is required';
+  if (!formData.specialization) newErrors.specialization = 'Specialization is required';
+  if (!formData.yearsOfExperience) newErrors.yearsOfExperience = 'Years of experience is required';
+  if (!formData.primarySkills.trim()) newErrors.primarySkills = 'Primary skills are required';
+  if (!formData.briefBio.trim()) newErrors.briefBio = 'Brief bio is required';
+if (!formData.pricingStructure) {
+  newErrors.pricingStructure = 'Pricing structure is required';
+}
+
+  if (!formData.paymentPreferences) {
+    newErrors.paymentPreferences = 'Payment preference is required';
+  }
+
+  const nonEmptyLanguages = formData.languagesSpoken.filter(lang => lang.trim() !== "");
+  if (nonEmptyLanguages.length === 0) {
+    newErrors.languagesSpoken = 'At least one language is required';
+  }
+
+  const validEducation = formData.education.some(
+    (e) => e.degree.trim() && e.institution.trim() && e.year.trim()
+  );
+  if (!validEducation) {
+    newErrors.education = 'At least one complete education entry is required';
+  }
+
+  const validExperience = formData.professionalExperience.some(
+    (e) => e.role.trim() && e.company.trim() && e.years.trim()
+  );
+  if (!validExperience) {
+    newErrors.professionalExperience = 'At least one complete experience entry is required';
+  }
+
+  const validCertificates = formData.certificates.some(cert => cert.name.trim());
+  if (!validCertificates) {
+    newErrors.certificates = 'At least one certificate name is required';
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
 
 const handleSubmit = () => {
   if (validateForm()) { 
@@ -283,6 +315,9 @@ const handleSubmit = () => {
                   )}
                 </div>
               ))}
+              {errors.languagesSpoken && (
+  <p className="text-red-500 text-sm mt-1">{errors.languagesSpoken}</p>
+)}
               <button
                 type="button"
                 onClick={() => addArrayItem('languagesSpoken', '')}
@@ -425,6 +460,8 @@ const handleSubmit = () => {
                 </div>
               </div>
             ))}
+            {errors.education && <p className="text-red-500 text-sm mt-1">{errors.education}</p>}
+
             <button
               type="button"
               onClick={() => addArrayItem('education', { degree: "", institution: "", year: "" })}
@@ -497,6 +534,8 @@ const handleSubmit = () => {
                 </div>
               </div>
             ))}
+            {errors.professionalExperience && <p className="text-red-500 text-sm mt-1">{errors.professionalExperience}</p>}
+
             <button
               type="button"
               onClick={() => addArrayItem('professionalExperience', { role: "", company: "", years: "" })}
@@ -543,6 +582,8 @@ const handleSubmit = () => {
                 </div>
               </div>
             ))}
+            {errors.certificates && <p className="text-red-500 text-sm mt-1">{errors.certificates}</p>}
+
             <button
               type="button"
               onClick={() => addArrayItem('certificates', { name: "", file: null })}
@@ -679,6 +720,9 @@ const handleSubmit = () => {
                     <option key={price} value={price}>{price}</option>
                   ))}
                 </select>
+                {errors.pricingStructure && (
+  <p className="text-red-500 text-sm mt-1">{errors.pricingStructure}</p>
+)}
               </div>
 
               <div>
@@ -695,7 +739,10 @@ const handleSubmit = () => {
                   {paymentPreferences.map(method => (
                     <option key={method} value={method}>{method}</option>
                   ))}
+
                 </select>
+                                  {errors.paymentPreferences && <p className="text-red-500 text-sm mt-1">{errors.paymentPreferences}</p>}
+
               </div>
             </div>
           </div>
