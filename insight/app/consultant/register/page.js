@@ -209,6 +209,7 @@ const handleSubmit = async () => {
       alert('🎉 Consultant registered successfully!');
       router.push('/consultant/home'); // Redirect to dashboard
     } else {
+            router.push('/consultant/home'); // Redirect to dashboard
       alert(data.error || '❌ Registration failed.');
     }
 

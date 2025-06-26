@@ -128,7 +128,7 @@ export default function Header() {
                     </div>
                     <div>
                       <div className="font-medium text-gray-900">John Doe</div>
-                      <div className="text-sm text-gray-500">Client Account</div>
+                      <div className="text-sm text-gray-500">Consultant Account</div>
                     </div>
                   </div>
                 </div>
