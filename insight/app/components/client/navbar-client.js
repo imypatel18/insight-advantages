@@ -73,12 +73,24 @@ export default function Navbar() {
                 isOpen={isDropdownOpen === 'search'}
                 onToggle={() => toggleDropdown('search')}
               >
-                <DropdownItem icon={Search}>Browse Consultants</DropdownItem>
-                <DropdownItem icon={TrendingUp}>Trending Skills</DropdownItem>
-                <DropdownItem icon={Star}>Top Rated</DropdownItem>
-                <DropdownItem icon={Bookmark}>Saved Consultants</DropdownItem>
-                <div className="border-t border-gray-100 my-2"></div>
+                <Link href="/client/browse-consultants">
+                  <DropdownItem icon={Search}>Browse Consultants</DropdownItem>
+                </Link>
+                <Link href="/client/trending-skills">
+                  <DropdownItem icon={TrendingUp}>Trending Skills</DropdownItem>
+                </Link>
+                
+                <Link href="/client/top-rated-consultant">
+                  <DropdownItem icon={Star}>Top Rated</DropdownItem>
+                </Link>
+                <Link href="/client/saved-consultant">
+                  <DropdownItem icon={Bookmark}>Saved Consultants</DropdownItem>
+                </Link>
+                <Link href="/client/verified-consultants">
+                  <div className="border-t border-gray-100 my-2"></div>
                 <DropdownItem icon={UserCheck}>Verified Consultants</DropdownItem>
+                </Link>
+                
               </DropdownMenu>
 
               <DropdownMenu
