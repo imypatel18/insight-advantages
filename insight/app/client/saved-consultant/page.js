@@ -1,16 +1,15 @@
 'use client';
 
 import React from 'react';
-import BrowseConsultant from '@/app/client/browse-consultants/BrowseConsultant';
+import SavedConsultants from '@/app/client/saved-consultant/SavedConsultants';
 import ClientNavbar from '@/app/components/client/navbar-client';
 
-
-export default function BrowseConsultantsPage() {
+export default function SavedConsultantsPage() {
   return (
     <>
       <ClientNavbar />
       <div className="mt-4">
-        <BrowseConsultant />
+        <SavedConsultants />
       </div>
     </>
   );
