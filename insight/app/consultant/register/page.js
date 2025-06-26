@@ -158,12 +158,10 @@ const handleSubmit = async () => {
   if (!validateForm()) return;
 
   try {
-    const hashedPassword = await bcrypt.hash(formData.password || 'default123', 10);
 
     const payload = {
-      ...formData,
-      password: hashedPassword
-    };
+  ...formData
+};
 
     const res = await fetch('/api/register-consultant', {
       method: 'POST',
