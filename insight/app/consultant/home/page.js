@@ -45,7 +45,11 @@ const ConsultantDashboard = () => {
   const [messageText, setMessageText] = useState("")
   const [messages, setMessages] = useState([])
 
-  
+
+  const handleSearch = () => {
+    console.log("Searching for:", searchQuery);
+    // Add your search logic here
+  };
 
   // Preferences state management
 
@@ -287,6 +291,7 @@ const ConsultantDashboard = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value)
   }
+
 
   const clearSearch = () => {
     setSearchQuery("")
@@ -998,21 +1003,46 @@ const ConsultantDashboard = () => {
                                     </div>
 
                                     <div className="flex space-x-2">
-                                        <div className="flex-1 relative">
-                                            <input
-                                                placeholder="Search by role, skills, or keywords"
-                                                className="bg-white/95 border-0 text-gray-900 placeholder:text-gray-500 rounded-full pl-4 pr-12 h-12 shadow-lg w-full"
-                                            />
-                                            <button
-                                                size="sm"
-                                                className="absolute right-1 top-1 bg-green-600 hover:bg-green-700 rounded-full h-10 px-6 shadow-lg"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 mr-2 inline-block">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                                </svg>
-                                                Search
-                                            </button>
-                                        </div>
+                                         <div className="flex-1 relative">
+      <input
+        placeholder="Search by role, skills, or keywords"
+        className="bg-white/95 border-0 text-gray-900 placeholder:text-gray-500 rounded-full pl-4 pr-12 h-12 shadow-lg w-full"
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
+      
+      {/* Clear button when input is not empty */}
+      {searchQuery && (
+        <button
+          onClick={clearSearch}
+          className="absolute right-20 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+        >
+          Clear
+        </button>
+      )}
+
+      {/* Search button */}
+      <button
+        onClick={handleSearch}
+        className="absolute right-1 top-1 bg-green-600 hover:bg-green-700 text-white rounded-full h-10 px-6 shadow-lg"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="h-4 w-4 mr-2 inline-block"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
+        Search
+      </button>
+    </div>
                                     </div>
 
                                     {/* Company Logos */}
