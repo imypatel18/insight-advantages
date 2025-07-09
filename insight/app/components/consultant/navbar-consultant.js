@@ -41,17 +41,16 @@ export default function Header() {
                     onClick={() => toggleDropdown("search")}
                     className="flex items-center space-x-1 px-2 py-1 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 group"
                   >
-                    <span>Search Client</span>
+                    <span>Search Clients</span>
                     <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isDropdownOpen === "search" ? "rotate-180" : ""}`} />
                   </button>
                 </DropdownMenuTrigger>
                 {isDropdownOpen === "search" && (
                   <DropdownMenuContent className="w-56 z-50 mt-2 rounded-xl border py-2">
-                    <DropdownMenuItem>Browse Client</DropdownMenuItem>
-                    <DropdownMenuItem>Trending Skills</DropdownMenuItem>
-                    <DropdownMenuItem>Top Rated</DropdownMenuItem>
-                    <DropdownMenuItem>Saved Client</DropdownMenuItem>
-                    <DropdownMenuItem>Verified Client</DropdownMenuItem>
+                    <DropdownMenuItem>Browse Clients</DropdownMenuItem>
+                    <DropdownMenuItem>Recommended Clients</DropdownMenuItem>
+                    <DropdownMenuItem>Saved Clients</DropdownMenuItem>
+                    <DropdownMenuItem>Verified Clients</DropdownMenuItem>
                   </DropdownMenuContent>
                 )}
               </DropdownMenu>
@@ -69,16 +68,16 @@ export default function Header() {
                 {isDropdownOpen === "requests" && (
                   <DropdownMenuContent className="w-56 z-50 mt-2 rounded-xl border py-2">
                     <DropdownMenuItem asChild>
-                      <Link href="/client/post-request">Post Request</Link>
+                      <Link href="/consultant/active-contracts">Active Contracts</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/client/active-requests">Active Requests</Link>
+                      <Link href="/consultant/incoming-requests">Incoming Requests</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/client/history-request">Request History</Link>
+                      <Link href="/consultant/request-history">Request History</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/client/alert-request">Request Alerts</Link>
+                      <Link href="/consultant/request-alerts">Alerts</Link>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 )}
@@ -86,6 +85,7 @@ export default function Header() {
             </nav>
           </div>
 
+{/*           
           <div className="hidden md:block relative w-96">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
@@ -93,13 +93,13 @@ export default function Header() {
               className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             />
           </div>
+          */}
 
           <div className="flex items-center space-x-3">
             <div className="hidden sm:flex items-center space-x-3">
-              
-                           <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
-                               <ClientNotificationDropdown />
-                           </button>
+              <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
+                <ClientNotificationDropdown />
+              </button>
 
               <Link href="/client/message">
                 <Button variant="ghost" className="flex items-center space-x-2 relative hover:bg-blue-50 hover:text-blue-600">
@@ -138,7 +138,7 @@ export default function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>Document Management</DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
-                <DropdownMenuItem>Saved Client</DropdownMenuItem>
+                <DropdownMenuItem>Saved Clients</DropdownMenuItem>
                 <DropdownMenuItem>Preferences</DropdownMenuItem>
                 <DropdownMenuItem className="text-red-600">Sign Out</DropdownMenuItem>
               </DropdownMenuContent>
