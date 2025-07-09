@@ -65,7 +65,7 @@ export default function Sidebar() {
       {/* Connects Section */}
       <Collapsible defaultOpen>
         <CollapsibleTrigger className="flex w-full items-center justify-between p-4 bg-white border rounded-lg hover:bg-gray-50">
-          <span className="font-semibold">Connects: 15</span>
+          <span className="font-semibold">Connect: 15</span>
           <ChevronDown className="h-4 w-4" />
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2 p-4 bg-white border rounded-lg">

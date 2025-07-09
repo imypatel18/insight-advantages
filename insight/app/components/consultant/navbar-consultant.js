@@ -97,9 +97,10 @@ export default function Header() {
           <div className="flex items-center space-x-3">
             <div className="hidden sm:flex items-center space-x-3">
               
-                           <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
-                               <ClientNotificationDropdown />
-                           </button>
+                           <div className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
+  <ClientNotificationDropdown />
+</div>
+
 
               <Link href="/client/message">
                 <Button variant="ghost" className="flex items-center space-x-2 relative hover:bg-blue-50 hover:text-blue-600">
