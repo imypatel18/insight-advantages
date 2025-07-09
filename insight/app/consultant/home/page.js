@@ -1,5 +1,8 @@
 "use client"
-
+import Link from "next/link";
+import {  Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import AvailabilityToggle from "../availability/availability-toggle"
@@ -988,13 +991,13 @@ const ConsultantDashboard = () => {
                                 {/* Search Interface - Re-added as it was part of the original hero in the image */}
                                 <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 space-y-4 shadow-2xl border border-white/20 mt-12">
                                     <div className="flex space-x-2">
-                                        <button
+                                      {/*  <button
                                             // You might want to remove these buttons or make them functional based on your app's flow
                                             // If this is *only* a consultant page, these might not be needed in the hero search
                                             className="rounded-full px-6 backdrop-blur-sm bg-white/25 border border-white/40 text-white"
                                         >
                                             talent
-                                        </button>
+                                        </button>*/}
                                         <button
                                             className="rounded-full px-6 text-white/80 hover:bg-white/20"
                                         >
@@ -1343,14 +1346,51 @@ const ConsultantDashboard = () => {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold">Connects: 15</h3>
-                <button className="text-blue-600 text-sm hover:underline">View details</button>
-              </div>
-              <button className="text-blue-600 text-sm hover:underline">Buy Connects</button>
+<div className="w-full max-w-sm">
+      {/* Connects Section */}
+      <Collapsible defaultOpen>
+        <CollapsibleTrigger className="flex w-full items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:bg-blue-50 hover:border-blue-200 transition-colors group">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+              <Users className="h-4 w-4 text-blue-600" />
             </div>
+            <div className="text-left">
+              <span className="font-semibold text-gray-900">Connects</span>
+              <div className="text-2xl font-bold text-blue-600">15</div>
+            </div>
+          </div>
+          <ChevronDown className="h-4 w-4 text-gray-500 group-hover:text-blue-600 transition-colors" />
+        </CollapsibleTrigger>
+
+        <CollapsibleContent className="mt-2">
+          <div className="p-4 bg-white border border-gray-200 rounded-lg border-t-0 rounded-t-none">
+            <div className="space-y-3">
+              <Button
+  onClick={() => router.push("/consultant/connections")}
+  variant="link"
+  className="p-0 h-auto text-blue-600 hover:text-blue-700 font-medium flex items-center space-x-2"
+>
+  <Eye className="h-4 w-4" />
+  <span>View details</span>
+</Button>
+
+              <div className="pt-2 border-t border-gray-100">
+                <div className="text-sm text-gray-600">
+                  <div className="flex justify-between items-center mb-2">
+                    <span>Active connections</span>
+                    <span className="font-medium text-gray-900">12</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>New this week</span>
+                    <span className="font-medium text-green-600">+3</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
           </div>
         </div>
       </div>
