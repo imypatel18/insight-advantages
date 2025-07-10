@@ -101,7 +101,7 @@ export default function Header() {
                 {/* <ClientNotificationDropdown /> */}
               </button>
 
-              <Link href="/client/message">
+              <Link href="/consultant/message">
                 <Button variant="ghost" className="flex items-center space-x-2 relative hover:bg-blue-50 hover:text-blue-600">
                   <MessageSquare className="h-4 w-4" />
                   <span className="hidden sm:inline">Messages</span>
@@ -136,16 +136,23 @@ export default function Header() {
                 <DropdownMenuItem asChild>
                   <Link href="/account-setting">Account Settings</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Document Management</DropdownMenuItem>
+              {/*     <DropdownMenuItem>Document Management</DropdownMenuItem> */}
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
+<<<<<<< HEAD
                 <DropdownMenuItem>Saved Clients</DropdownMenuItem>
                 <DropdownMenuItem>Preferences</DropdownMenuItem>
                 <DropdownMenuItem className="text-red-600"> <Link href='/'>Sign Out</Link></DropdownMenuItem>
+=======
+             {/*   <DropdownMenuItem>Saved Clients</DropdownMenuItem>*/}
+             {/*    <DropdownMenuItem>Preferences</DropdownMenuItem>*/}
+                <DropdownMenuItem className="text-red-600">Sign Out</DropdownMenuItem>
+>>>>>>> fec9bcea9cc64339249d38b184d87baaf6d020a6
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
       </div>
+      
     </header>
   );
 }
