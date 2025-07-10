@@ -31,7 +31,7 @@ const SimpleHeader = () => {
     <header className="border-b bg-white px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="text-2xl font-bold text-blue-600">ConsultPro</div>
+          <div className="text-2xl font-bold text-blue-600">ConsultMatch</div>
         </div>
         <Link href="/consultant/profile" className="text-blue-600 hover:text-blue-700">
           Back to Profile

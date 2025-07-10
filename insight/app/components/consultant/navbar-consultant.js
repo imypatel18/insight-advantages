@@ -98,7 +98,7 @@ export default function Header() {
           <div className="flex items-center space-x-3">
             <div className="hidden sm:flex items-center space-x-3">
               <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
-                <ClientNotificationDropdown />
+                {/* <ClientNotificationDropdown /> */}
               </button>
 
               <Link href="/consultant/message">
@@ -138,9 +138,15 @@ export default function Header() {
                 </DropdownMenuItem>
               {/*     <DropdownMenuItem>Document Management</DropdownMenuItem> */}
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
+<<<<<<< HEAD
+                <DropdownMenuItem>Saved Clients</DropdownMenuItem>
+                <DropdownMenuItem>Preferences</DropdownMenuItem>
+                <DropdownMenuItem className="text-red-600"> <Link href='/'>Sign Out</Link></DropdownMenuItem>
+=======
              {/*   <DropdownMenuItem>Saved Clients</DropdownMenuItem>*/}
              {/*    <DropdownMenuItem>Preferences</DropdownMenuItem>*/}
                 <DropdownMenuItem className="text-red-600">Sign Out</DropdownMenuItem>
+>>>>>>> fec9bcea9cc64339249d38b184d87baaf6d020a6
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

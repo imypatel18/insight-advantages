@@ -2,36 +2,41 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { X, DollarSign, MapPin, Tag, Star, Award, Briefcase, ArrowLeft } from "lucide-react"
+import axios from "axios"
+import { X, DollarSign, MapPin, Tag, Star, Award, Briefcase, ArrowLeft, Clock, Globe, CheckCircle, Send } from "lucide-react"
 import Navbar from "@/app/components/consultant/navbar-consultant"
 
 const PostService = () => {
   const router = useRouter()
   const [formData, setFormData] = useState({
+    consultant_id: 123, // You may want to get this from user context/auth
     title: "",
     description: "",
-    serviceType: "",
-    expertise: [],
-    hourlyRate: "",
-    projectRate: "",
-    availability: "full-time",
+    service_type: "",
+    expertise: "",
+    hourly_rate: "",
+    project_rate: "",
+    availability: "Available",
     duration: "",
-    experienceYears: "",
+    experience_years: "",
     location: "",
     remote: true,
-    languages: [],
-    certifications: [],
+    languages: "",
+    certifications: "",
     portfolio: "",
-    linkedIn: "",
+    linkedin: "",
     website: "",
-    responseTime: "24-hours",
-    minProjectBudget: "",
+    response_time: "Within 24 hours",
+    min_project_budget: "",
   })
-  const [currentExpertise, setCurrentExpertise] = useState("")
-  const [currentLanguage, setCurrentLanguage] = useState("")
-  const [currentCertification, setCurrentCertification] = useState("")
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [responseMessage, setResponseMessage] = useState("")
 
   const serviceTypes = [
+    "Web Development",
+    "Mobile App Development",
     "Business Strategy Consulting",
     "Financial Advisory",
     "Digital Transformation",
@@ -42,23 +47,34 @@ const PostService = () => {
     "Legal Consulting",
     "Management Consulting",
     "Startup Advisory",
+    "Data Analytics & BI",
+    "Cybersecurity Consulting",
+    "Cloud Architecture",
+    "DevOps & Infrastructure",
     "Other",
   ]
 
   const availabilityOptions = [
-    { value: "full-time", label: "Full-time (40+ hrs/week)" },
-    { value: "part-time", label: "Part-time (20-39 hrs/week)" },
-    { value: "project-based", label: "Project-based" },
-    { value: "hourly", label: "Hourly consultation" },
-    { value: "retainer", label: "Monthly retainer" },
+    { value: "Available", label: "Available" },
+    { value: "Busy", label: "Busy" },
+    { value: "Unavailable", label: "Unavailable" },
+  ]
+
+  const durationOptions = [
+    { value: "1-4 weeks", label: "1-4 weeks" },
+    { value: "1-3 months", label: "1-3 months" },
+    { value: "3-6 months", label: "3-6 months" },
+    { value: "6-12 months", label: "6-12 months" },
+    { value: "12+ months", label: "12+ months" },
+    { value: "Flexible", label: "Flexible" },
   ]
 
   const responseTimeOptions = [
-    { value: "immediate", label: "Within 1 hour" },
-    { value: "same-day", label: "Same day" },
-    { value: "24-hours", label: "Within 24 hours" },
-    { value: "48-hours", label: "Within 48 hours" },
-    { value: "weekly", label: "Within a week" },
+    { value: "Within 1 hour", label: "Within 1 hour" },
+    { value: "Within 12 hours", label: "Within 12 hours" },
+    { value: "Within 24 hours", label: "Within 24 hours" },
+    { value: "Within 48 hours", label: "Within 48 hours" },
+    { value: "Within a week", label: "Within a week" },
   ]
 
   const handleInputChange = (e) => {
@@ -69,177 +85,186 @@ const PostService = () => {
     }))
   }
 
-  const handleAddExpertise = () => {
-    if (currentExpertise.trim() && !formData.expertise.includes(currentExpertise.trim())) {
-      setFormData((prev) => ({
-        ...prev,
-        expertise: [...prev.expertise, currentExpertise.trim()],
-      }))
-      setCurrentExpertise("")
-    }
-  }
-
-  const handleRemoveExpertise = (expertiseToRemove) => {
-    setFormData((prev) => ({
-      ...prev,
-      expertise: prev.expertise.filter((exp) => exp !== expertiseToRemove),
-    }))
-  }
-
-  const handleAddLanguage = () => {
-    if (currentLanguage.trim() && !formData.languages.includes(currentLanguage.trim())) {
-      setFormData((prev) => ({
-        ...prev,
-        languages: [...prev.languages, currentLanguage.trim()],
-      }))
-      setCurrentLanguage("")
-    }
-  }
-
-  const handleRemoveLanguage = (languageToRemove) => {
-    setFormData((prev) => ({
-      ...prev,
-      languages: prev.languages.filter((lang) => lang !== languageToRemove),
-    }))
-  }
-
-  const handleAddCertification = () => {
-    if (currentCertification.trim() && !formData.certifications.includes(currentCertification.trim())) {
-      setFormData((prev) => ({
-        ...prev,
-        certifications: [...prev.certifications, currentCertification.trim()],
-      }))
-      setCurrentCertification("")
-    }
-  }
-
-  const handleRemoveCertification = (certificationToRemove) => {
-    setFormData((prev) => ({
-      ...prev,
-      certifications: prev.certifications.filter((cert) => cert !== certificationToRemove),
-    }))
-  }
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("Consultant service posted:", formData)
+    setIsSubmitting(true)
+    
+    try {
+      // Convert string numbers to actual numbers for API
+      const submitData = {
+        ...formData,
+        hourly_rate: parseFloat(formData.hourly_rate) || 0,
+        project_rate: parseFloat(formData.project_rate) || 0,
+        min_project_budget: parseFloat(formData.min_project_budget) || 0,
+        experience_years: parseInt(formData.experience_years) || 0,
+      }
 
-    setFormData({
-      title: "",
-      description: "",
-      serviceType: "",
-      expertise: [],
-      hourlyRate: "",
-      projectRate: "",
-      availability: "full-time",
-      duration: "",
-      experienceYears: "",
-      location: "",
-      remote: true,
-      languages: [],
-      certifications: [],
-      portfolio: "",
-      linkedIn: "",
-      website: "",
-      responseTime: "24-hours",
-      minProjectBudget: "",
-    })
-
-    alert("Your consulting service has been posted successfully!")
-    router.push("/consultant-dashboard")
-  }
-
-  const handleKeyPress = (e, type) => {
-    if (e.key === "Enter") {
-      e.preventDefault()
-      if (type === "expertise") handleAddExpertise()
-      if (type === "language") handleAddLanguage()
-      if (type === "certification") handleAddCertification()
+      const response = await axios.post("http://localhost:5000/api/consultant-services", submitData)
+      setResponseMessage(response.data.message || "Your consulting service has been posted successfully!")
+      setSubmitSuccess(true)
+    } catch (err) {
+      console.error(err)
+      setResponseMessage("Failed to post service. Please try again.")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      {/* <div className="bg-white border-b px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-              <ArrowLeft className="h-5 w-5" />
-              Back
-            </button>
-            <h1 className="text-2xl font-bold text-blue-600">Post Your Consulting Services</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <button onClick={() => router.push("/consultant-dashboard")} className="text-gray-700 hover:text-blue-600">
-              Dashboard
-            </button>
-            <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-white text-sm">
-              RZ
+  // Success screen
+  if (submitSuccess) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+        <Navbar />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="bg-white p-8 rounded-xl shadow-xl text-center max-w-md mx-4">
+            <div className="text-green-600 mb-4">
+              <CheckCircle className="w-16 h-16 mx-auto" />
+            </div>
+            <h2 className="text-2xl font-bold mb-4 text-gray-900">Service Posted Successfully!</h2>
+            <p className="text-gray-600 mb-6">{responseMessage}</p>
+            <div className="space-y-3">
+              <button
+                className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+                onClick={() => {
+                  setSubmitSuccess(false)
+                  setFormData({
+                    consultant_id: 123,
+                    title: "",
+                    description: "",
+                    service_type: "",
+                    expertise: "",
+                    hourly_rate: "",
+                    project_rate: "",
+                    availability: "Available",
+                    duration: "",
+                    experience_years: "",
+                    location: "",
+                    remote: true,
+                    languages: "",
+                    certifications: "",
+                    portfolio: "",
+                    linkedin: "",
+                    website: "",
+                    response_time: "Within 24 hours",
+                    min_project_budget: "",
+                  })
+                }}
+              >
+                Post Another Service
+              </button>
+              <button
+                className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
+                onClick={() => router.push("/consultant/home")}
+              >
+                Go to Dashboard
+              </button>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-6 border-b">
-              <h2 className="text-xl font-semibold">Showcase Your Expertise</h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Create a compelling service listing to attract potential clients and grow your consulting business
+          {/* Header Section */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
+              <Briefcase className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Post Your Consulting Services</h1>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Showcase your expertise and connect with clients who need your skills. 
+              Create a compelling service listing to grow your consulting business.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-lg border border-blue-100 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6">
+              <h2 className="text-xl font-semibold text-white">Service Details</h2>
+              <p className="text-blue-100 mt-1">
+                Fill in the details below to create your service listing
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-8">
+            <form onSubmit={handleSubmit} className="p-8 space-y-8">
               {/* Service Overview */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Briefcase className="h-5 w-5" />
-                  Service Overview
-                </h3>
-
-                {/* Service Title */}
-                <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
-                    Service Title *
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    placeholder="e.g., Strategic Business Consulting for Tech Startups"
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                    required
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Create a clear, compelling title that highlights your main service offering
-                  </p>
+                <div className="flex items-center gap-2 pb-2 border-b border-blue-100">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <h3 className="text-lg font-semibold text-gray-900">Service Overview</h3>
                 </div>
 
-                {/* Service Type */}
-                <div>
-                  <label htmlFor="serviceType" className="block text-sm font-medium text-gray-700 mb-2">
-                    Service Category *
-                  </label>
-                  <select
-                    id="serviceType"
-                    name="serviceType"
-                    value={formData.serviceType}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                    required
-                  >
-                    <option value="">Select your primary service</option>
-                    {serviceTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Service Title */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                      Service Title *
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Full-Stack Web Development Consultant"
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      required
+                    />
+                  </div>
+
+                  {/* Service Type */}
+                  <div>
+                    <label htmlFor="service_type" className="block text-sm font-medium text-gray-700 mb-2">
+                      Service Category *
+                    </label>
+                    <select
+                      id="service_type"
+                      name="service_type"
+                      value={formData.service_type}
+                      onChange={handleInputChange}
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      required
+                    >
+                      <option value="">Select your service category</option>
+                      {serviceTypes.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Experience Years */}
+                  <div>
+                    <label htmlFor="experience_years" className="block text-sm font-medium text-gray-700 mb-2">
+                      Years of Experience *
+                    </label>
+                    <select
+                      id="experience_years"
+                      name="experience_years"
+                      value={formData.experience_years}
+                      onChange={handleInputChange}
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      required
+                    >
+                      <option value="">Select experience level</option>
+                      <option value="1">1 year</option>
+                      <option value="2">2 years</option>
+                      <option value="3">3 years</option>
+                      <option value="4">4 years</option>
+                      <option value="5">5 years</option>
+                      <option value="6">6 years</option>
+                      <option value="7">7 years</option>
+                      <option value="8">8 years</option>
+                      <option value="9">9 years</option>
+                      <option value="10">10+ years</option>
+                    </select>
+                  </div>
                 </div>
 
                 {/* Description */}
@@ -254,207 +279,119 @@ const PostService = () => {
                     onChange={handleInputChange}
                     placeholder="Describe your consulting services, approach, and what makes you unique. Include specific outcomes you deliver, your methodology, and the value you bring to clients..."
                     rows="6"
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     required
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Minimum 100 characters. Be specific about your approach and the results clients can expect.
+                  <p className="text-xs text-gray-500 mt-2">
+                    Be specific about your approach and the results clients can expect.
                   </p>
                 </div>
-              </div>
 
-              {/* Expertise & Experience */}
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Award className="h-5 w-5" />
-                  Expertise & Experience
-                </h3>
-
-                {/* Areas of Expertise */}
+                {/* Expertise */}
                 <div>
                   <label htmlFor="expertise" className="block text-sm font-medium text-gray-700 mb-2">
                     Areas of Expertise *
                   </label>
-                  <div className="flex gap-2 mb-2">
-                    <div className="relative flex-1">
-                      <Tag className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                      <input
-                        type="text"
-                        value={currentExpertise}
-                        onChange={(e) => setCurrentExpertise(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, "expertise")}
-                        placeholder="e.g., Market Analysis, Strategic Planning, Financial Modeling"
-                        className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleAddExpertise}
-                      className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                    >
-                      Add
-                    </button>
-                  </div>
-                  {formData.expertise.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {formData.expertise.map((exp, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm flex items-center gap-2"
-                        >
-                          {exp}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveExpertise(exp)}
-                            className="text-green-500 hover:text-green-700"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <p className="text-xs text-gray-500">
-                    Add at least 3 areas of expertise to help clients find your services
-                  </p>
-                </div>
-
-                {/* Experience Years */}
-                <div>
-                  <label htmlFor="experienceYears" className="block text-sm font-medium text-gray-700 mb-2">
-                    Years of Experience *
-                  </label>
-                  <select
-                    id="experienceYears"
-                    name="experienceYears"
-                    value={formData.experienceYears}
+                  <textarea
+                    id="expertise"
+                    name="expertise"
+                    value={formData.expertise}
                     onChange={handleInputChange}
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    placeholder="e.g., React, Node.js, TypeScript, AWS, MongoDB, PostgreSQL, Docker, Kubernetes, CI/CD, Microservices Architecture"
+                    rows="3"
+                    className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     required
-                  >
-                    <option value="">Select experience level</option>
-                    <option value="1-2">1-2 years</option>
-                    <option value="3-5">3-5 years</option>
-                    <option value="6-10">6-10 years</option>
-                    <option value="11-15">11-15 years</option>
-                    <option value="15+">15+ years</option>
-                  </select>
-                </div>
-
-                {/* Certifications */}
-                <div>
-                  <label htmlFor="certifications" className="block text-sm font-medium text-gray-700 mb-2">
-                    Certifications & Credentials
-                  </label>
-                  <div className="flex gap-2 mb-2">
-                    <div className="relative flex-1">
-                      <Award className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                      <input
-                        type="text"
-                        value={currentCertification}
-                        onChange={(e) => setCurrentCertification(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, "certification")}
-                        placeholder="e.g., PMP, MBA, CPA, Six Sigma Black Belt"
-                        className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleAddCertification}
-                      className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                    >
-                      Add
-                    </button>
-                  </div>
-                  {formData.certifications.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {formData.certifications.map((cert, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm flex items-center gap-2"
-                        >
-                          {cert}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveCertification(cert)}
-                            className="text-blue-500 hover:text-blue-700"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <p className="text-xs text-gray-500">
-                    Add relevant certifications to build credibility with potential clients
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    List your key skills and technologies separated by commas
                   </p>
                 </div>
               </div>
 
               {/* Pricing & Availability */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
-                  Pricing & Availability
-                </h3>
+                <div className="flex items-center gap-2 pb-2 border-b border-blue-100">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <h3 className="text-lg font-semibold text-gray-900">Pricing & Availability</h3>
+                </div>
 
-                {/* Rates */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Hourly Rate */}
                   <div>
-                    <label htmlFor="hourlyRate" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="hourly_rate" className="block text-sm font-medium text-gray-700 mb-2">
                       Hourly Rate (USD) *
                     </label>
                     <div className="relative">
-                      <DollarSign className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                      <DollarSign className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
                       <input
                         type="number"
-                        id="hourlyRate"
-                        name="hourlyRate"
-                        value={formData.hourlyRate}
+                        id="hourly_rate"
+                        name="hourly_rate"
+                        value={formData.hourly_rate}
                         onChange={handleInputChange}
-                        placeholder="150"
-                        className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="85"
+                        min="0"
+                        step="0.01"
+                        className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         required
                       />
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Set a competitive rate based on your experience and market standards
-                    </p>
                   </div>
+
+                  {/* Project Rate */}
                   <div>
-                    <label htmlFor="minProjectBudget" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="project_rate" className="block text-sm font-medium text-gray-700 mb-2">
+                      Starting Project Rate (USD)
+                    </label>
+                    <div className="relative">
+                      <DollarSign className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                      <input
+                        type="number"
+                        id="project_rate"
+                        name="project_rate"
+                        value={formData.project_rate}
+                        onChange={handleInputChange}
+                        placeholder="5000"
+                        min="0"
+                        step="0.01"
+                        className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Minimum Project Budget */}
+                  <div>
+                    <label htmlFor="min_project_budget" className="block text-sm font-medium text-gray-700 mb-2">
                       Minimum Project Budget (USD)
                     </label>
                     <div className="relative">
-                      <DollarSign className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                      <DollarSign className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
                       <input
                         type="number"
-                        id="minProjectBudget"
-                        name="minProjectBudget"
-                        value={formData.minProjectBudget}
+                        id="min_project_budget"
+                        name="min_project_budget"
+                        value={formData.min_project_budget}
                         onChange={handleInputChange}
-                        placeholder="5000"
-                        className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="2500"
+                        min="0"
+                        step="0.01"
+                        className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       />
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Optional: Set a minimum budget to filter serious inquiries
-                    </p>
                   </div>
-                </div>
 
-                {/* Availability */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Availability */}
                   <div>
                     <label htmlFor="availability" className="block text-sm font-medium text-gray-700 mb-2">
-                      Availability *
+                      Current Availability *
                     </label>
                     <select
                       id="availability"
                       name="availability"
                       value={formData.availability}
                       onChange={handleInputChange}
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      required
                     >
                       {availabilityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -463,63 +400,95 @@ const PostService = () => {
                       ))}
                     </select>
                   </div>
+
+                  {/* Duration */}
                   <div>
-                    <label htmlFor="responseTime" className="block text-sm font-medium text-gray-700 mb-2">
-                      Response Time *
+                    <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
+                      Project Duration Preference
                     </label>
                     <select
-                      id="responseTime"
-                      name="responseTime"
-                      value={formData.responseTime}
+                      id="duration"
+                      name="duration"
+                      value={formData.duration}
                       onChange={handleInputChange}
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     >
-                      {responseTimeOptions.map((option) => (
+                      <option value="">Select duration preference</option>
+                      {durationOptions.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
                       ))}
                     </select>
                   </div>
+
+                  {/* Response Time */}
+                  <div>
+                    <label htmlFor="response_time" className="block text-sm font-medium text-gray-700 mb-2">
+                      Response Time *
+                    </label>
+                    <div className="relative">
+                      <Clock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                      <select
+                        id="response_time"
+                        name="response_time"
+                        value={formData.response_time}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        required
+                      >
+                        {responseTimeOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Location & Languages */}
+              {/* Location & Additional Info */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <MapPin className="h-5 w-5" />
-                  Location & Languages
-                </h3>
+                <div className="flex items-center gap-2 pb-2 border-b border-blue-100">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <h3 className="text-lg font-semibold text-gray-900">Location & Additional Information</h3>
+                </div>
 
-                {/* Location */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Location */}
                   <div>
                     <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
                       Primary Location
                     </label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                      <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
                       <input
                         type="text"
                         id="location"
                         name="location"
                         value={formData.location}
                         onChange={handleInputChange}
-                        placeholder="e.g., New York, NY"
-                        className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="e.g., Toronto, ON"
+                        className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       />
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <label className="flex items-center gap-2">
+
+                  {/* Remote Work */}
+                  <div className="flex items-center justify-center">
+                    <label className="flex items-center gap-3 cursor-pointer">
                       <input
                         type="checkbox"
                         name="remote"
                         checked={formData.remote}
                         onChange={handleInputChange}
-                        className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                        className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span className="text-sm font-medium text-gray-700">Available for remote work</span>
+                      <span className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                        <Globe className="h-4 w-4" />
+                        Available for remote work
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -529,54 +498,48 @@ const PostService = () => {
                   <label htmlFor="languages" className="block text-sm font-medium text-gray-700 mb-2">
                     Languages Spoken
                   </label>
-                  <div className="flex gap-2 mb-2">
-                    <input
-                      type="text"
-                      value={currentLanguage}
-                      onChange={(e) => setCurrentLanguage(e.target.value)}
-                      onKeyPress={(e) => handleKeyPress(e, "language")}
-                      placeholder="e.g., English, Spanish, French"
-                      className="flex-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleAddLanguage}
-                      className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                    >
-                      Add
-                    </button>
-                  </div>
-                  {formData.languages.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {formData.languages.map((lang, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm flex items-center gap-2"
-                        >
-                          {lang}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveLanguage(lang)}
-                            className="text-purple-500 hover:text-purple-700"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <p className="text-xs text-gray-500">Multiple languages can help you reach a broader client base</p>
+                  <input
+                    type="text"
+                    id="languages"
+                    name="languages"
+                    value={formData.languages}
+                    onChange={handleInputChange}
+                    placeholder="e.g., English, French, Spanish"
+                    className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    Separate multiple languages with commas
+                  </p>
+                </div>
+
+                {/* Certifications */}
+                <div>
+                  <label htmlFor="certifications" className="block text-sm font-medium text-gray-700 mb-2">
+                    Certifications & Credentials
+                  </label>
+                  <textarea
+                    id="certifications"
+                    name="certifications"
+                    value={formData.certifications}
+                    onChange={handleInputChange}
+                    placeholder="e.g., AWS Solutions Architect, Google Cloud Professional Developer, MongoDB Certified Developer"
+                    rows="3"
+                    className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    List relevant certifications separated by commas
+                  </p>
                 </div>
               </div>
 
-              {/* Portfolio & Links */}
+              {/* Professional Links */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Star className="h-5 w-5" />
-                  Portfolio & Professional Links
-                </h3>
+                <div className="flex items-center gap-2 pb-2 border-b border-blue-100">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <h3 className="text-lg font-semibold text-gray-900">Professional Links</h3>
+                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700 mb-2">
                       Portfolio URL
@@ -588,58 +551,65 @@ const PostService = () => {
                       value={formData.portfolio}
                       onChange={handleInputChange}
                       placeholder="https://yourportfolio.com"
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     />
                   </div>
                   <div>
-                    <label htmlFor="linkedIn" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700 mb-2">
                       LinkedIn Profile
                     </label>
                     <input
                       type="url"
-                      id="linkedIn"
-                      name="linkedIn"
-                      value={formData.linkedIn}
+                      id="linkedin"
+                      name="linkedin"
+                      value={formData.linkedin}
                       onChange={handleInputChange}
                       placeholder="https://linkedin.com/in/yourprofile"
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
-                    Professional Website
-                  </label>
-                  <input
-                    type="url"
-                    id="website"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleInputChange}
-                    placeholder="https://yourwebsite.com"
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Professional links help build trust and showcase your work
-                  </p>
+                  <div className="md:col-span-2">
+                    <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
+                      Professional Website
+                    </label>
+                    <input
+                      type="url"
+                      id="website"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleInputChange}
+                      placeholder="https://yourwebsite.com"
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Submit Buttons */}
-              <div className="flex gap-4 pt-6 border-t">
+              <div className="flex gap-4 pt-8 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => router.back()}
-                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-6 py-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
+                  disabled={isSubmitting}
+                  className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Post My Services
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <Clock className="h-5 w-5 animate-spin" />
+                      Posting Service...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <Send className="h-5 w-5" />
+                      Post My Services
+                    </span>
+                  )}
                 </button>
               </div>
             </form>

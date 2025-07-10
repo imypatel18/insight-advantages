@@ -63,7 +63,7 @@ const handleSubmit = async (e) => {
           <CardContent className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultPro</div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">ConsultMatch</div>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign up</h1>
               <p className="text-gray-600">Join thousands of successful consultants</p>
             </div>

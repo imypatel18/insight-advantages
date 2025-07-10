@@ -30,6 +30,7 @@ import {
 } from "lucide-react"
 import Navbar from "../../components/consultant/navbar-consultant"
 import DocumentVerification from "./DocumentVerification"
+import JobsExplorer from "./JobsExplorer"
 
 const ConsultantDashboard = () => {
   const router = useRouter()
@@ -1109,7 +1110,7 @@ const ConsultantDashboard = () => {
             </div>
 
             {/* Search Bar */}
-            <div className="relative mb-6">
+            {/* <div className="relative mb-6">
               <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
               <input
                 placeholder="Search for projects"
@@ -1125,10 +1126,11 @@ const ConsultantDashboard = () => {
                   Clear
                 </button>
               )}
-            </div>
+            </div> */}
 
             {/* Projects Section */}
-            <div className="bg-white rounded-lg p-6">
+            <JobsExplorer/>
+            {/* <div className="bg-white rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">
                   {searchQuery ? `Search Results (${filteredProjects.length})` : "Projects you might like"}
@@ -1148,7 +1150,7 @@ const ConsultantDashboard = () => {
                 </div>
               )}
 
-              {/* Tabs */}
+            
               <div className="border-b mb-6">
                 <div className="flex gap-8">
                   <button
@@ -1189,7 +1191,6 @@ const ConsultantDashboard = () => {
                 </div>
               </div>
 
-              {/* Tab Content */}
               {activeTab === "best-matches" && (
                 <div>
                   <p className="text-gray-600 mb-6">
@@ -1270,7 +1271,7 @@ const ConsultantDashboard = () => {
                 </div>
               )}
                   {activeTab === "preferences" && <PreferencesContent />}
-            </div>
+            </div> */}
           </div>
 
           {/* Sidebar */}
