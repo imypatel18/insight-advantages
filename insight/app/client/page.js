@@ -1232,95 +1232,57 @@ export default function HomePage() {
 
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-purple-800 rounded-3xl overflow-hidden min-h-[600px]">
-            {/* Hero Image - Positioned as foreground element */}
-            <div className="absolute inset-0 z-10">
-              <Image
-                src="/images/istockphoto-951091418-612x612.jpg"
-                alt="Professional woman working on laptop"
-                fill
-                className="object-cover object-center"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-              />
-            </div>
+      {/* Hero Section - Updated UI like second image */}
+<section className="py-16 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+    {/* Left Side Content */}
+    <div className="space-y-6">
+      <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+         Empowering Businesses Through Expert Consulting Solutions
+      </h1>
+      <p className="text-gray-600 text-lg max-w-xl">
+        We help startups and enterprises unlock growth with strategy-driven consulting in technology, operations, and transformation. Partner with experts who deliver measurable impact.
+      </p>
+      <div className="flex space-x-4">
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white text-lg px-6 py-3 rounded-lg">
+          Get Started
+        </Button>
+        <Button variant="outline" className="text-gray-800 border border-gray-300 px-6 py-3 rounded-lg flex items-center">
+          ▶ Watch Now
+        </Button>
+      </div>
+    </div>
 
-            {/* Blue Overlay for text readability */}
-            <div className="absolute inset-0 z-20 bg-gradient-to-r from-blue-900/90 via-blue-800/70 to-blue-700/40"></div>
+    {/* Right Side Image */}
+    <div className="flex justify-center">
+      <img
+        src="/images/image1.jpg"
+        alt="Consultant professional"
+        className="w-full max-w-md rounded-xl shadow-xl"
+      />
+    </div>
+  </div>
 
-            {/* Content Layer */}
-            <div className="relative z-30 px-8 py-16 lg:px-16 lg:py-24 flex items-center min-h-[600px]">
-              <div className="max-w-2xl">
-                <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight mb-8 drop-shadow-lg">
-                  Connecting clients in need to freelancers who deliver
-                </h1>
-
-                {/* Search Interface */}
-                <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 space-y-4 shadow-2xl border border-white/20">
-                  <div className="flex space-x-2">
-                    <Button
-                      onClick={() => setSearchType("talent")}
-                      variant="outline"
-                      className={`rounded-full px-6 backdrop-blur-sm ${
-                        searchType === "talent"
-                          ? "bg-white/25 border-white/40 text-white"
-                          : "bg-white/10 border-white/20 text-white/80 hover:bg-white/20"
-                      }`}
-                    >
-                      
-                      talent
-                    </Button>
-                    <Button
-                      onClick={() => setSearchType("jobs")}
-                      variant="ghost"
-                      className={`rounded-full px-6 ${
-                        searchType === "jobs" ? "bg-white/25 text-white" : "text-white/80 hover:bg-white/20"
-                      }`}
-                    >
-                      Browse jobs
-                    </Button>
-                  </div>
-
-                  <div className="flex space-x-2">
-                    <div className="flex-1 relative">
-                      <Input
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Search by role, skills, or keywords"
-                        className="bg-white/95 border-0 text-gray-900 placeholder:text-gray-500 rounded-full pl-4 pr-12 h-12 shadow-lg"
-                      />
-                      <Button
-                        onClick={handleSearch}
-                        disabled={isSearching || !searchQuery.trim()}
-                        size="sm"
-                        className="absolute right-1 top-1 bg-green-600 hover:bg-green-700 rounded-full h-10 px-6 shadow-lg disabled:opacity-50"
-                      >
-                        <Search className="h-4 w-4 mr-2" />
-                        {isSearching ? "Searching..." : "Search"}
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Company Logos */}
-                  <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-4">
-                    <div className="text-white/90 text-sm font-medium">Trusted by:</div>
-                    <div className="flex flex-wrap items-center gap-6">
-                      <div className="text-white font-semibold drop-shadow-sm">Microsoft</div>
-                      <div className="text-white font-semibold drop-shadow-sm">airbnb</div>
-                      <div className="text-white font-semibold drop-shadow-sm">Bissell</div>
-                      <div className="text-white font-semibold drop-shadow-sm">GLASSDOOR</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+{/* Logos Section */}
+<div className="mt-16 text-center">
+  <div className="flex flex-wrap justify-center gap-10 items-center">
+    {[
+      "/images/image.png",
+      "/images/download.png",
+      "/images/IBM.png",
+      "/images/Accenture.png",
+      "/images/SAP.png",
+    ].map((src, index) => (
+      <img
+        key={index}
+        src={src}
+        alt={`Logo ${index + 1}`}
+        className="h-10 object-contain grayscale hover:grayscale-0 transition"
+      />
+    ))}
+  </div>
+</div>
+</section>
 
       {/* Browse by Category Section */}
       <section className="py-16">
@@ -1368,53 +1330,6 @@ export default function HomePage() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Premium Features Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden">
-            <div className="absolute top-4 right-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-pink-400 rounded-full"></div>
-                <div className="text-sm font-medium">PREMIUM</div>
-              </div>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-4">Boost your visibility with premium features</h2>
-                <p className="text-blue-100 mb-6">
-                  Premium consultants get 3x more project invitations and higher client response rates.
-                </p>
-                <Button className="bg-white text-blue-600 hover:bg-blue-50">Upgrade Now</Button>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 w-64">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Avatar className="h-10 w-10">
-                      <AvatarFallback className="bg-blue-500 text-white">RZ</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-semibold">Rutesh Zalavadiya</div>
-                      <div className="text-sm text-blue-200">Business Consultant</div>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Complete your profile</span>
-                      <span>85%</span>
-                    </div>
-                    <div className="w-full bg-white/20 rounded-full h-2">
-                      <div className="bg-white rounded-full h-2 w-[85%]"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
