@@ -138,15 +138,9 @@ export default function Header() {
                 </DropdownMenuItem>
               {/*     <DropdownMenuItem>Document Management</DropdownMenuItem> */}
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
-<<<<<<< HEAD
                 <DropdownMenuItem>Saved Clients</DropdownMenuItem>
                 <DropdownMenuItem>Preferences</DropdownMenuItem>
                 <DropdownMenuItem className="text-red-600"> <Link href='/'>Sign Out</Link></DropdownMenuItem>
-=======
-             {/*   <DropdownMenuItem>Saved Clients</DropdownMenuItem>*/}
-             {/*    <DropdownMenuItem>Preferences</DropdownMenuItem>*/}
-                <DropdownMenuItem className="text-red-600">Sign Out</DropdownMenuItem>
->>>>>>> fec9bcea9cc64339249d38b184d87baaf6d020a6
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
