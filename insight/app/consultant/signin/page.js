@@ -27,22 +27,34 @@ export default function SignUpPage() {
     }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+  try {
+    const res = await fetch('/api/login-consultant', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
 
-    // Redirect to registration page with form data
-    const query = new URLSearchParams({
-      fullName: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-    }).toString()
-    
-    router.push(`/consultant/home`)
-    setIsLoading(false)
+    const data = await res.json();
+
+    if (res.ok) {
+      // Optional: store consultant session in localStorage
+      localStorage.setItem('consultantUser', JSON.stringify(data.user));
+
+      router.push('/consultant/home'); // ✅ Redirect on success
+    } else {
+      alert(data.error || 'Login failed');
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+    alert('Something went wrong. Please try again.');
   }
+
+  setIsLoading(false);
+};
 
   return (
 <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-100 to-blue-300 flex items-center justify-center p-4">

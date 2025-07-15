@@ -22,6 +22,9 @@ export default async function handler(req, res) {
 
     // ✅ Hash password (default from signup form)
     const hashedPassword = await bcrypt.hash(data.password, 10);
+    console.log("🧂 Password to hash:", data.password);
+    console.log("🔐 Hashed password saved:", hashedPassword);
+
 
     // ✅ Insert main consultant info
     const insertConsultant = await pool.request()
