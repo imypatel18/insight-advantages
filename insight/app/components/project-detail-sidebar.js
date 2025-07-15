@@ -268,7 +268,7 @@ export default function ProjectDetailSidebar({ project, isOpen, onClose, onSaveP
               <div>
                 <h3 className="font-semibold mb-2">Job link</h3>
                 <div className="bg-gray-100 p-3 rounded">
-                  <p className="text-sm text-gray-600">https://www.consultpro.com/jobs/</p>
+                  <p className="text-sm text-gray-600">https://www.ConsultMatch.com/jobs/</p>
                 </div>
                 <Button variant="link" className="p-0 h-auto text-blue-600 mt-2">
                   Copy link

@@ -127,7 +127,7 @@ export default function Navbar() {
             <div className="hidden sm:flex items-center space-x-3">
 
               <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 relative">
-                  <ClientNotificationDropdown />
+                  {/* <ClientNotificationDropdown /> */}
               </button>
 
              <Link
@@ -178,9 +178,9 @@ export default function Navbar() {
                   <Link href="/client/account-setting">
                   <DropdownItem icon={Settings}>Account Settings</DropdownItem>
                   </Link>
-                  <button className="w-full flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
+                  <Link href='/' className="w-full flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
                     <span>Sign Out</span>
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>

@@ -2067,7 +2067,7 @@ export default ConsultantDashboard
 //       <div className="bg-white border-b px-6 py-4">
 //         <div className="flex items-center justify-between">
 //           <div className="flex items-center gap-8">
-//             <h1 className="text-2xl font-bold text-blue-600">ConsultPro</h1>
+//             <h1 className="text-2xl font-bold text-blue-600">ConsultMatch</h1>
 //             <nav className="flex items-center gap-6">
 //               <button className="text-gray-700 hover:text-blue-600">Find Projects</button>
 //               <button className="text-gray-700 hover:text-blue-600">My Work</button>
@@ -3368,7 +3368,7 @@ export default ConsultantDashboard
 //       <div className="bg-white border-b px-6 py-4">
 //         <div className="flex items-center justify-between">
 //           <div className="flex items-center gap-8">
-//             <h1 className="text-2xl font-bold text-blue-600">ConsultPro</h1>
+//             <h1 className="text-2xl font-bold text-blue-600">ConsultMatch</h1>
 //             <nav className="flex items-center gap-6">
 //               <button className="text-gray-700 hover:text-blue-600">Find Projects</button>
 //               <button className="text-gray-700 hover:text-blue-600">My Work</button>

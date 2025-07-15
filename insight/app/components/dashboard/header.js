@@ -13,7 +13,7 @@
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
-              <div className="text-2xl font-bold text-blue-600">ConsultPro</div>
+              <div className="text-2xl font-bold text-blue-600">ConsultMatch</div>
             </div>
 
             <nav className="hidden md:flex items-center space-x-6">
